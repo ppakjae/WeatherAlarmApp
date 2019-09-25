@@ -1,5 +1,6 @@
 package com.example.weatheralarmapp.main_fragment;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,7 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.weatheralarmapp.R;
-import com.example.weatheralarmapp.db_connect.MemoDBHelper;
+import com.example.weatheralarmapp.db_connect.DBConst;
+import com.example.weatheralarmapp.db_connect.DBHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -24,6 +26,7 @@ import java.util.Locale;
 
 public class MemoFragment extends Fragment {
 
+    Context context;
     TextView tvDay_1;
     TextView tvDay_2;
     TextView tvDay_3;
@@ -48,6 +51,7 @@ public class MemoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_memo, container, false);
+        context = container.getContext();
 
         tvDay_1 = (TextView) view.findViewById(R.id.tvDay_1);
         tvDay_2 = (TextView) view.findViewById(R.id.tvDay_2);
@@ -86,7 +90,7 @@ public class MemoFragment extends Fragment {
     }
 
     public void AddMemo() {
-        MemoDBHelper dbHelper = new MemoDBHelper(getContext());
+        DBHelper dbHelper = new DBHelper(context.getApplicationContext(), DBConst.MEMO_TABLE_NAME, null, DBConst.DATABASE_VERSION);
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         dbHelper.AllDelete(database);
 
@@ -94,31 +98,31 @@ public class MemoFragment extends Fragment {
             String id = String.valueOf(i);
             switch (i) {
                 case 1:
-                    dbHelper.addContact(id, tvDay_1.getText().toString() ,edtDay_1.getText().toString(), database);
+                    dbHelper.addMemoContact(id, tvDay_1.getText().toString() ,edtDay_1.getText().toString(), database);
                     break;
 
                 case 2:
-                    dbHelper.addContact(id, tvDay_2.getText().toString(), edtDay_2.getText().toString(), database);
+                    dbHelper.addMemoContact(id, tvDay_2.getText().toString(), edtDay_2.getText().toString(), database);
                     break;
 
                 case 3:
-                    dbHelper.addContact(id, tvDay_3.getText().toString(), edtDay_3.getText().toString(), database);
+                    dbHelper.addMemoContact(id, tvDay_3.getText().toString(), edtDay_3.getText().toString(), database);
                     break;
 
                 case 4:
-                    dbHelper.addContact(id, tvDay_4.getText().toString(), edtDay_4.getText().toString(), database);
+                    dbHelper.addMemoContact(id, tvDay_4.getText().toString(), edtDay_4.getText().toString(), database);
                     break;
 
                 case 5:
-                    dbHelper.addContact(id, tvDay_5.getText().toString(), edtDay_5.getText().toString(), database);
+                    dbHelper.addMemoContact(id, tvDay_5.getText().toString(), edtDay_5.getText().toString(), database);
                     break;
 
                 case 6:
-                    dbHelper.addContact(id, tvDay_6.getText().toString(), edtDay_6.getText().toString(), database);
+                    dbHelper.addMemoContact(id, tvDay_6.getText().toString(), edtDay_6.getText().toString(), database);
                     break;
 
                 case 7:
-                    dbHelper.addContact(id, tvDay_7.getText().toString(), edtDay_7.getText().toString(), database);
+                    dbHelper.addMemoContact(id, tvDay_7.getText().toString(), edtDay_7.getText().toString(), database);
                     break;
             }
         }
@@ -127,10 +131,10 @@ public class MemoFragment extends Fragment {
     }
 
     public void ReadMemo() {
-        MemoDBHelper dbHelper = new MemoDBHelper(getContext());
+        DBHelper dbHelper = new DBHelper(context.getApplicationContext(), DBConst.MEMO_TABLE_NAME, null, DBConst.DATABASE_VERSION);
         SQLiteDatabase database = dbHelper.getReadableDatabase();
 
-        Cursor cursor = dbHelper.readContact(database);
+        Cursor cursor = dbHelper.readMemoContact(database);
 
         for (int i = 0; i < cursor.getCount(); i++) {
             cursor.moveToNext();
