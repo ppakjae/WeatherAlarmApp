@@ -121,6 +121,21 @@ public class DBHelper extends SQLiteOpenHelper {
         return c;
     }
 
+    public void addMemoContact(String id, String day, String memo_contents, SQLiteDatabase database) {
+        String sql = "insert into diary values('" + id + "', '" + day + "', '" + memo_contents + "');";
+        database.execSQL(sql);
+    }
+
+    public Cursor readMemoContact(SQLiteDatabase database) {
+        String sql = "select id, day, memo_contents from diary";
+        Cursor cursor1 = database.rawQuery(sql, null);
+        return cursor1;
+    }
+
+    public void AllMemoDelete(SQLiteDatabase database) {
+        database.delete("diary", null, null);
+    }
+
 //
 //    public AlarmItem readAlarm(DBHelper dbHelper) {
 //
