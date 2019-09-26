@@ -7,18 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.weatheralarmapp.alarm.AlarmAdapter;
 import com.example.weatheralarmapp.alarm.AlarmAddActivity;
 import com.example.weatheralarmapp.alarm.AlarmItem;
 import com.example.weatheralarmapp.R;
+import com.example.weatheralarmapp.alarm.ReAlarmAdapter;
 import com.example.weatheralarmapp.db_connect.DBConst;
 import com.example.weatheralarmapp.db_connect.DBHelper;
 
@@ -35,9 +36,9 @@ public class AlarmFragment extends Fragment {
     TextView tvPlus;
     TextView tvCancel;
 
-    ListView listAlarm;
+    RecyclerView listAlarm;
 
-    AlarmAdapter adapter;
+    ReAlarmAdapter adapter;
 
     String noon;
     String hour;
@@ -70,7 +71,6 @@ public class AlarmFragment extends Fragment {
         listAlarm = view.findViewById(R.id.listAlarm);
 
 
-        adapter = new AlarmAdapter();
 
         dbHelper.addContact("오전", 8, 10, 1, 1,0,1, 1, 1, 0, 0, "wea");
         dbHelper.addContact("오전", 8, 10, 1, 1,0,1, 1, 1, 0, 0, "wea");
@@ -86,11 +86,15 @@ public class AlarmFragment extends Fragment {
 
         ArrayList<AlarmItem> alarmItems = dbHelper.readContact();
 
-        for (AlarmItem item : alarmItems){
-            adapter.addItem(item);
-        }
+        adapter = new ReAlarmAdapter(alarmItems);
 
-        listAlarm.setAdapter(adapter);
+        listAlarm.setLayoutManager(new LinearLayoutManager(context)) ;
+
+        // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
+        listAlarm.setAdapter(adapter) ;
+//        for (AlarmItem item : alarmItems){
+//            adapter.addItem(item);
+//        }
 //
 //        DBHelper db = new DBHelper(getContext());
 //        AlarmItem alarm = db.readAlarm(db);
