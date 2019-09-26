@@ -36,6 +36,7 @@ public class AlarmAdapter extends BaseAdapter {
         return position;
     }
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         context = parent.getContext();
@@ -120,5 +121,6 @@ public class AlarmAdapter extends BaseAdapter {
 
         alarms.add(temp);
     }
+
 
 }

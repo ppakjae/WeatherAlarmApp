@@ -49,6 +49,7 @@ public class AlarmFragment extends Fragment {
     // true 일때 수정모드 text는 취소
     // 로작업하는게 좋습니다.
     boolean editStatus = false;
+    boolean plusStatus = false;
 
     DBHelper dbHelper;
 
@@ -103,12 +104,20 @@ public class AlarmFragment extends Fragment {
 
                 if(!editStatus){
                     //만약 editStatus가 false 라면 텍스트를 취소로 바꾸고 editStatus를 수정 모드인 true로 바꾼다.
-                    tvEdit.setText("취소");
+                    tvEdit.setText("삭제");
+                    tvEdit.setTextColor(getResources().getColor(R.color.textRed));
+                    tvPlus.setText("취소");
+                    ImageView ivAlarmEdit = (ImageView) view.findViewById(R.id.ivAlarmEdit);
+                    ToggleButton toggleButton = (ToggleButton) view.findViewById(R.id.toggleButton);
+                    ToggleButton tbAlarmDeleteCheck = (ToggleButton) view.findViewById(R.id.tbAlarmDeleteCheck);
+                    ivAlarmEdit.setVisibility(View.VISIBLE);
+                    toggleButton.setVisibility(View.GONE);
+                    tbAlarmDeleteCheck.setVisibility(View.VISIBLE);
                     editStatus = !editStatus;
+                    plusStatus = !plusStatus;
                 }else{
-                    //만약 editStatus가 true 라면 텍스트를 편집으로 바꾸고 editStatus를 다시 일반 모드인 false 로 바꾼다.
-                    tvEdit.setText("편집");
-                    editStatus = !editStatus;
+      //              int id = adapter.getItemId(getView().getId());
+     //               dbHelper.delete(dbHelper.getReadableDatabase(), id);
                 }
 //                tvEdit.setVisibility(View.GONE);
 //                tvCancel.setVisibility(View.VISIBLE);
@@ -128,8 +137,26 @@ public class AlarmFragment extends Fragment {
         tvPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AlarmAddActivity.class);
-                startActivity(intent);
+
+                if(!plusStatus){
+                    Intent intent = new Intent(getContext(), AlarmAddActivity.class);
+                    startActivity(intent);
+
+            }else{
+                    //만약 editStatus가 true 라면 텍스트를 편집으로 바꾸고 editStatus를 다시 일반 모드인 false 로 바꾼다.
+                    tvEdit.setText("편집");
+                    tvEdit.setTextColor(getResources().getColor(R.color.textBlack));
+                    tvPlus.setText("추가");
+                    ImageView ivAlarmEdit = (ImageView) view.findViewById(R.id.ivAlarmEdit);
+                    ToggleButton toggleButton = (ToggleButton) view.findViewById(R.id.toggleButton);
+                    ToggleButton tbAlarmDeleteCheck = (ToggleButton) view.findViewById(R.id.tbAlarmDeleteCheck);
+                    ivAlarmEdit.setVisibility(View.GONE);
+                    toggleButton.setVisibility(View.VISIBLE);
+                    tbAlarmDeleteCheck.setVisibility(View.GONE);
+                    editStatus = !editStatus;
+                    plusStatus = !plusStatus;
+
+                }
             }
         });
 
