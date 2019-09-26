@@ -44,7 +44,7 @@ public class MemoFragment extends Fragment {
     EditText edtDay_6;
     EditText edtDay_7;
 
-    Button btnSave;
+    TextView btnSave;
 
     View view;
     @Nullable
@@ -70,7 +70,7 @@ public class MemoFragment extends Fragment {
         edtDay_6 = (EditText) view.findViewById(R.id.edtDay_6);
         edtDay_7 = (EditText) view.findViewById(R.id.edtDay_7);
 
-        btnSave = (Button) view.findViewById(R.id.btnSave);
+        btnSave = (TextView) view.findViewById(R.id.btnSave);
 
         Date currentTime = Calendar.getInstance().getTime();
         SimpleDateFormat weekdayFormat = new SimpleDateFormat("EE", Locale.getDefault());
