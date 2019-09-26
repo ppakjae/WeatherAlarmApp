@@ -12,6 +12,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.weatheralarmapp.R;
+import com.example.weatheralarmapp.alarm.AlarmWakeUpActivity;
 
 public class AlarmSoundService extends Service {
     MediaPlayer mp;
@@ -30,6 +31,7 @@ public class AlarmSoundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Intent StartIntent = new Intent(getApplicationContext(), AlarmWakeUpActivity.class);
         Toast.makeText(this, "알람이 울립니다.", Toast.LENGTH_SHORT).show();
         Log.i("alarmSet","set");
 
@@ -41,7 +43,7 @@ public class AlarmSoundService extends Service {
             ringtone.setStreamType(AudioManager.STREAM_ALARM);
             ringtone.play();
         }
-
+        startActivity(StartIntent);
         return super.onStartCommand(intent, flags, startId);
     }
 
