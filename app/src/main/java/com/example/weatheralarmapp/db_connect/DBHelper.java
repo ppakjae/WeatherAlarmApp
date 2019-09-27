@@ -65,7 +65,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void addContact( String noon, int hour, int minute,
                            int mon, int tue, int wed, int thu, int fri, int sat, int sun, int delay, String weather) {
         SQLiteDatabase db = getWritableDatabase();
-        String sql = String.format("insert into alarm values(null,'%s','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%s');",
+        String sql = String.format("insert into alarm values(null, '%s','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%s');",
                                       noon, hour, minute, mon, tue, wed, thu, fri, sat, sun, delay, weather);
         db.execSQL(sql);
 
@@ -106,6 +106,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void AllDelete(SQLiteDatabase database) {
         database.delete("alarm", null, null);
+    }
+
+    public void delete(SQLiteDatabase database, int id ){
+        String sql = String.format("delete from alarm where id= ('%d');", id);
+        database.execSQL(sql);
+        database.close();
     }
 
     public Cursor getAllColumns(SQLiteDatabase database) {
