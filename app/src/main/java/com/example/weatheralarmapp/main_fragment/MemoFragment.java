@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,7 @@ public class MemoFragment extends Fragment {
     EditText edtDay_6;
     EditText edtDay_7;
 
-    Button btnSave;
+    TextView btnSave;
 
     View view;
     @Nullable
@@ -69,7 +70,7 @@ public class MemoFragment extends Fragment {
         edtDay_6 = (EditText) view.findViewById(R.id.edtDay_6);
         edtDay_7 = (EditText) view.findViewById(R.id.edtDay_7);
 
-        btnSave = (Button) view.findViewById(R.id.btnSave);
+        btnSave = (TextView) view.findViewById(R.id.btnSave);
 
         Date currentTime = Calendar.getInstance().getTime();
         SimpleDateFormat weekdayFormat = new SimpleDateFormat("EE", Locale.getDefault());
@@ -77,6 +78,7 @@ public class MemoFragment extends Fragment {
         String weekDay = weekdayFormat.format(currentTime);
         DayForm(weekDay);
 
+        autoDelete();
         ReadMemo();
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +94,7 @@ public class MemoFragment extends Fragment {
     public void AddMemo() {
         DBHelper dbHelper = new DBHelper(context.getApplicationContext(), DBConst.MEMO_TABLE_NAME, null, DBConst.DATABASE_VERSION);
         SQLiteDatabase database = dbHelper.getWritableDatabase();
-        dbHelper.AllDelete(database);
+        dbHelper.AllMemoDelete(database);
 
         for (int i=1; i<8 ; i++) {
             String id = String.valueOf(i);
@@ -140,6 +142,12 @@ public class MemoFragment extends Fragment {
             cursor.moveToNext();
             String Memo_Contents = cursor.getString(2);
 
+            if (i==0) {
+                Log.d("day", cursor.getString(1));
+                Log.d("tvDay", tvDay_1.getText().toString());
+                Log.d("MemoContents", cursor.getString(2));
+            }
+
             if (Memo_Contents != null) {
                 String day = cursor.getString(1);
 
@@ -169,6 +177,43 @@ public class MemoFragment extends Fragment {
 
         cursor.close();
         dbHelper.close();
+    }
+
+    public void autoDelete() {
+        int nDay;
+        int ntvDay;
+        int subDay;
+
+        DBHelper dbHelper = new DBHelper(context.getApplicationContext(), DBConst.MEMO_TABLE_NAME, null, DBConst.DATABASE_VERSION);
+        SQLiteDatabase database = dbHelper.getReadableDatabase();
+
+        Cursor cursor = dbHelper.readMemoContact(database);
+
+        for (int i = 0; i < 1; i++) {
+            try {
+                cursor.moveToNext();
+                String day = cursor.getString(1);
+                nDay = nDayToCount(day);
+                ntvDay = nDayToCount(tvDay_1.getText().toString());
+
+                if (nDay > ntvDay) {
+                    subDay = nDay - ntvDay;
+
+                    for (int j=1; j<=subDay ; j++) {
+                        dbHelper.autoMemoDelete(j, database);
+                    }
+                }
+
+                else if (nDay < ntvDay) {
+                    subDay = ntvDay - nDay;
+
+                    for (int j=1 ; j<=subDay ; j++) {
+                        dbHelper.autoMemoDelete(j, database);
+                    }
+                }
+            }
+            catch (Exception e) {}
+        }
     }
 
     public void DayForm(String weekDay) {
@@ -243,5 +288,32 @@ public class MemoFragment extends Fragment {
                 tvDay_7.setText("토요일");
                 break;
         }
+    }
+
+    public int nDayToCount(String date) {
+        int nCount = 0;
+
+        if (date.equals("월요일"))
+            nCount = 1;
+
+        else if (date.equals("화요일"))
+            nCount = 2;
+
+        else if (date.equals("수요일"))
+            nCount = 3;
+
+        else if (date.equals("목요일"))
+            nCount = 4;
+
+        else if (date.equals("금요일"))
+            nCount = 5;
+
+        else if (date.equals("토요일"))
+            nCount = 6;
+
+        else if (date.equals("일요일"))
+            nCount = 7;
+
+        return nCount;
     }
 }

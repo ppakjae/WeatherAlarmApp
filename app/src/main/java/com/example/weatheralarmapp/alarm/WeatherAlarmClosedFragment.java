@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.weatheralarmapp.R;
-import com.example.weatheralarmapp.alarm.AlarmAddActivity;
+import com.example.weatheralarmapp.AlarmAddActivity;
 
 public class WeatherAlarmClosedFragment extends Fragment {
 

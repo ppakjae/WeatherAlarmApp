@@ -1,5 +1,6 @@
 package com.example.weatheralarmapp.db_connect;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -140,6 +141,16 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void AllMemoDelete(SQLiteDatabase database) {
         database.delete("diary", null, null);
+    }
+
+    public void autoMemoDelete(int id, SQLiteDatabase database) {
+        ContentValues contentValues = new ContentValues();
+
+        String selection = "id = " + id;
+
+        contentValues.put("memo_contents", "");
+
+        database.update(DBConst.MEMO_TABLE_NAME, contentValues, selection, null);
     }
 
 //

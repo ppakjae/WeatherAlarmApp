@@ -6,9 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.weatheralarmapp.alarm.AlarmAddActivity;
+import com.example.weatheralarmapp.AlarmAddActivity;
 import com.example.weatheralarmapp.alarm.AlarmItem;
 import com.example.weatheralarmapp.R;
 import com.example.weatheralarmapp.alarm.ReAlarmAdapter;
