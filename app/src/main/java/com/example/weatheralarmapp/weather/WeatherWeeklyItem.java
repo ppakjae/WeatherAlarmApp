@@ -2,15 +2,15 @@ package com.example.weatheralarmapp.weather;
 
 public class WeatherWeeklyItem {
     private String day;
-    private int highTemper;
-    private int lowTemper;
-    private String weather;
+    private String skyName;
+    private String tmax;
+    private String tmin;
 
-    public WeatherWeeklyItem(String day, int highTemper, int lowTemper, String weather) {
+    public WeatherWeeklyItem(String day, String skyName, String tmax, String tmin) {
         this.day = day;
-        this.highTemper = highTemper;
-        this.lowTemper = lowTemper;
-        this.weather = weather;
+        this.skyName = skyName;
+        this.tmax = tmax;
+        this.tmin = tmin;
     }
 
     public String getDay() {
@@ -21,27 +21,27 @@ public class WeatherWeeklyItem {
         this.day = day;
     }
 
-    public int getHighTemper() {
-        return highTemper;
+    public String getSkyName() {
+        return skyName;
     }
 
-    public void setHighTemper(int highTemper) {
-        this.highTemper = highTemper;
+    public void setSkyName(String skyName) {
+        this.skyName = skyName;
     }
 
-    public int getLowTemper() {
-        return lowTemper;
+    public String getTmax() {
+        return tmax;
     }
 
-    public void setLowTemper(int lowTemper) {
-        this.lowTemper = lowTemper;
+    public void setTmax(String tmax) {
+        this.tmax = tmax;
     }
 
-    public String getWeather() {
-        return weather;
+    public String getTmin() {
+        return tmin;
     }
 
-    public void setWeather(String weather) {
-        this.weather = weather;
+    public void setTmin(String tmin) {
+        this.tmin = tmin;
     }
 }
