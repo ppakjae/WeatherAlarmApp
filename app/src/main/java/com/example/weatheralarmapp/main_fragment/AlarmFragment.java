@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -70,7 +72,7 @@ public class AlarmFragment extends Fragment {
         listAlarm = view.findViewById(R.id.listAlarm);
 
 
-
+        dbHelper.AllDelete(dbHelper.getReadableDatabase());
         dbHelper.addContact("오전", 8, 10, 1, 1,0,1, 1, 1, 0, 0, "wea");
         dbHelper.addContact("오전", 8, 10, 1, 1,0,1, 1, 1, 0, 0, "wea");
         dbHelper.addContact("오전", 8, 10, 1, 1,0,1, 1, 1, 0, 0, "wea");
@@ -110,12 +112,13 @@ public class AlarmFragment extends Fragment {
                     tvEdit.setText("삭제");
                     tvEdit.setTextColor(getResources().getColor(R.color.textRed));
                     tvPlus.setText("취소");
-                    ImageView ivAlarmEdit = (ImageView) view.findViewById(R.id.ivAlarmEdit);
-                    ToggleButton toggleButton = (ToggleButton) view.findViewById(R.id.toggleButton);
-                    ToggleButton tbAlarmDeleteCheck = (ToggleButton) view.findViewById(R.id.tbAlarmDeleteCheck);
-                    ivAlarmEdit.setVisibility(View.VISIBLE);
-                    toggleButton.setVisibility(View.GONE);
-                    tbAlarmDeleteCheck.setVisibility(View.VISIBLE);
+                    if(adapter.modiStatus){
+                        adapter.modiStatus = false;
+                    }else{
+                        adapter.modiStatus = true;
+                    }
+
+                    adapter.notifyDataSetChanged();
                     editStatus = !editStatus;
                     plusStatus = !plusStatus;
                 }else{
@@ -150,14 +153,24 @@ public class AlarmFragment extends Fragment {
                     tvEdit.setText("편집");
                     tvEdit.setTextColor(getResources().getColor(R.color.textBlack));
                     tvPlus.setText("추가");
+                    if(adapter.modiStatus){
+                        adapter.modiStatus = false;
+                    }else{
+                        adapter.modiStatus = true;
+                    }
+
+                    adapter.notifyDataSetChanged();
+
+                    editStatus = !editStatus;
+                    plusStatus = !plusStatus;
+                    /*
                     ImageView ivAlarmEdit = (ImageView) view.findViewById(R.id.ivAlarmEdit);
                     ToggleButton toggleButton = (ToggleButton) view.findViewById(R.id.toggleButton);
                     ToggleButton tbAlarmDeleteCheck = (ToggleButton) view.findViewById(R.id.tbAlarmDeleteCheck);
                     ivAlarmEdit.setVisibility(View.GONE);
                     toggleButton.setVisibility(View.VISIBLE);
                     tbAlarmDeleteCheck.setVisibility(View.GONE);
-                    editStatus = !editStatus;
-                    plusStatus = !plusStatus;
+                    */
 
                 }
             }
