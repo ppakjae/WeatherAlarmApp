@@ -39,9 +39,10 @@ public class AlarmItem {
     int onoff;
 
     boolean isSelected = false;
+    boolean isTbSelected = true;
 
     ////////view//////////
-    ToggleButton toggleButton;
+    public ToggleButton toggleButton;
     public CheckBox cbAlarmDeleteCheck;
     Drawable ivAlarmEdit;
 
@@ -215,12 +216,20 @@ public class AlarmItem {
         return weather;
     }
 
-    public void setonoff(int onoff){
+    public void setOnoff(int onoff){
         this.onoff = onoff;
     }
 
     public int getOnoff(){
         return onoff;
+    }
+
+    public boolean isTbSelected() {
+        return isTbSelected;
+    }
+
+    public void setTbSelected(boolean tbSelected) {
+        isTbSelected = tbSelected;
     }
 
     public void setWeather(int weather) {
