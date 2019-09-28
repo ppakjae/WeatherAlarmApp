@@ -39,6 +39,11 @@ public class AlarmReceiver extends BroadcastReceiver {
         PendingIntent pendingI = PendingIntent.getActivity(context, 0,
                 notificationIntent, 0);
 
+//        Intent wakeupIntent = new Intent(context, AlarmWakeUpActivity.class);
+//
+//        PendingIntent pendingWakeUp = PendingIntent.getActivity(context, 1,
+//                wakeupIntent, 0);
+
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default");
 
@@ -74,6 +79,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         if (notificationManager != null) {
 
+            //화면 끈 상태에서 켜지기
 
             PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK  |
@@ -92,9 +98,11 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             Calendar nextNotifyTime = Calendar.getInstance();
 
+            //지워야지
             // 내일 같은 시간으로 알람시간 결정
-            nextNotifyTime.add(Calendar.DATE, 1);
+//            nextNotifyTime.add(Calendar.DATE, 1);
 
+            //지워야지
             //  Preference에 설정한 값 저장
             SharedPreferences.Editor editor = context.getSharedPreferences("daily alarm", MODE_PRIVATE).edit();
             editor.putLong("nextNotifyTime", nextNotifyTime.getTimeInMillis());
@@ -106,12 +114,12 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
     }
 
-    public void startSound(Context context) {
-        //Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        //Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        Uri notification = Uri.parse("android.resource://com.example.alarmexample/raw/gradius");
-        android.media.Ringtone r = RingtoneManager.getRingtone(context, notification);
-        r.play();
-    }
+//    public void startSound(Context context) {
+//        //Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//        //Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+//        Uri notification = Uri.parse("android.resource://com.example.alarmexample/raw/gradius");
+//        android.media.Ringtone r = RingtoneManager.getRingtone(context, notification);
+//        r.play();
+//    }
 
 }
