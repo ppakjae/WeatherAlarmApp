@@ -18,9 +18,9 @@ import java.util.ArrayList;
 public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> {
 
     private Activity activity;
-    private ArrayList<WeatherDailyItem> dailyItems;
+    private ArrayList<WeatherDayilyHourlyItem> dailyItems;
 
-    DailyAdapter(Activity activity, ArrayList<WeatherDailyItem> dailyItems){
+    public DailyAdapter(Activity activity, ArrayList<WeatherDayilyHourlyItem> dailyItems){
         this.activity = activity;
         this.dailyItems = dailyItems;
     }
@@ -41,8 +41,8 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(activity, "click " +
-                            dailyItems.get(getAdapterPosition()).getTime(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(activity, "click " +
+//                            dailyItems.get(getAdapterPosition()).getTime(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -58,11 +58,12 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
     // 재활용 되는 View가 호출, Adapter가 해당 position에 해당하는 데이터를 결합
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        WeatherDailyItem data = dailyItems.get(position);
+        WeatherDayilyHourlyItem data = dailyItems.get(position);
 
         holder.txtDailyItemTime.setText(data.getTime());
-        holder.txtDailyItemRain.setText(data.getAboutRain());
-        holder.txtDailyItemTemper.setText(data.getTemper());
+//        holder.txtDailyItemRain.setText(data.get);
+        holder.txtDailyItemTemper.setText(data.getTemperature());
+//        holder.imgDailyItemIcon.setImageResource(); 넣어주기 전에 위에서 어떤 하늘인지 골라내고 넣기.
     }
 
     @Override

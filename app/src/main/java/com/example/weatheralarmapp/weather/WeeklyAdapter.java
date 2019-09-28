@@ -20,7 +20,7 @@ public class WeeklyAdapter extends RecyclerView.Adapter<WeeklyAdapter.ViewHolder
     private Activity activity;
     private ArrayList<WeatherWeeklyItem> weeklyItems;
 
-    WeeklyAdapter(Activity activity, ArrayList<WeatherWeeklyItem> weeklyItems){
+    public WeeklyAdapter(Activity activity, ArrayList<WeatherWeeklyItem> weeklyItems){
         this.activity = activity;
         this.weeklyItems = weeklyItems;
     }
@@ -62,8 +62,8 @@ public class WeeklyAdapter extends RecyclerView.Adapter<WeeklyAdapter.ViewHolder
 
         holder.txtWeeklyItemDay.setText(data.getDay());
 //        holder.imgWeeklyItemIcon.setImageResource(data.getWeather());
-        holder.txtWeeklyHighTemper.setText(data.getDay());
-        holder.txtWeeklyLowTemper.setText(data.getLowTemper());
+        holder.txtWeeklyHighTemper.setText(data.getTmax());
+        holder.txtWeeklyLowTemper.setText(data.getTmin());
     }
 
     @Override
