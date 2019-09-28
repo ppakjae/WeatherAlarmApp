@@ -41,7 +41,8 @@ public class DBHelper extends SQLiteOpenHelper {
                         "sat integer, " +
                         "sun integer, " +
                         "delay integer, " +
-                        "weather integer);";
+                        "weather integer, " +
+                        "onoff integer);";
 
         final String diarySQL = "create table diary (" +
                 "id integer primary key, " +
@@ -63,10 +64,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // 현재 이 클래스는 SQLiteOpenHelper를 상속받고 있기 때문에 구지 SQLiteDatabase 를 매개변수로 주지 않으셔도됩니다.
     public void addContact( int id, String noon, int hour, int minute,
-                           int mon, int tue, int wed, int thu, int fri, int sat, int sun, int delay, int weather) {
+                           int mon, int tue, int wed, int thu, int fri, int sat, int sun, int delay, int weather, int onoff) {
         SQLiteDatabase db = getWritableDatabase();
-        String sql = String.format("insert into alarm values('%d', '%s','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d');",
-                                      id, noon, hour, minute, mon, tue, wed, thu, fri, sat, sun, delay, weather);
+        String sql = String.format("insert into alarm values('%d', '%s','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d', '%d');",
+                                      id, noon, hour, minute, mon, tue, wed, thu, fri, sat, sun, delay, weather, onoff);
         db.execSQL(sql);
 
         db.close();
@@ -94,11 +95,12 @@ public class DBHelper extends SQLiteOpenHelper {
             alarmItem.setbSun(cursor.getInt(10));
             alarmItem.setDelay(cursor.getInt(11));
             alarmItem.setWeather(cursor.getInt(12));
+            alarmItem.setonoff(cursor.getInt(13));
 
             items.add(alarmItem);
 
 
-            
+
         }
 
         db.close();
@@ -140,6 +142,8 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor1 = database.rawQuery(sql, null);
         return cursor1;
     }
+
+
 
     public void AllMemoDelete(SQLiteDatabase database) {
         database.delete("diary", null, null);

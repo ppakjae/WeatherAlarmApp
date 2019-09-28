@@ -36,6 +36,8 @@ public class AlarmItem {
     int delay;
     int weather;
 
+    int onoff;
+
     boolean isSelected = false;
 
     ////////view//////////
@@ -49,7 +51,7 @@ public class AlarmItem {
     public AlarmItem() {
     }
 
-    public AlarmItem(String noon, int hour, int minute, int bMon, int bTue, int bWed, int bThu, int bFri, int bSat, int bSun, int delay, int weather){
+    public AlarmItem(String noon, int hour, int minute, int bMon, int bTue, int bWed, int bThu, int bFri, int bSat, int bSun, int delay, int weather, int onoff){
         this.noon = noon;
         this.hour = hour;
         this.minute = minute;
@@ -62,6 +64,7 @@ public class AlarmItem {
         this.bSun = bSun;
         this.weather = weather;
         this.delay = delay;
+        this.onoff = onoff;
     }
 
     public String getNoon() {
@@ -210,6 +213,14 @@ public class AlarmItem {
 
     public int getWeather() {
         return weather;
+    }
+
+    public void setonoff(int onoff){
+        this.onoff = onoff;
+    }
+
+    public int getOnoff(){
+        return onoff;
     }
 
     public void setWeather(int weather) {
