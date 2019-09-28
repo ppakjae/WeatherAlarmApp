@@ -1,6 +1,7 @@
 package com.example.weatheralarmapp;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -43,7 +44,7 @@ public class AlarmSoundService extends Service {
             ringtone.setStreamType(AudioManager.STREAM_ALARM);
             ringtone.play();
         }
-        startActivity(StartIntent);
+        startActivity(StartIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         return super.onStartCommand(intent, flags, startId);
     }
 

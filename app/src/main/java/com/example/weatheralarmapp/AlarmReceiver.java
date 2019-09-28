@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
+import com.example.weatheralarmapp.alarm.AlarmWakeUpActivity;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,7 +41,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default");
-
 
         //OREO API 26 이상에서는 채널 필요
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
