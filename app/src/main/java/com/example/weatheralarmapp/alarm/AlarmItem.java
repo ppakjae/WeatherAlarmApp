@@ -22,13 +22,16 @@ public class AlarmItem {
     int sat = R.drawable.sat_g;
     int sun = R.drawable.sun_g;
 
-    int bMon = 0;
-    int bTue = 0;
-    int bWed = 0;
-    int bThu = 0;
-    int bFri = 0;
-    int bSat = 0;
-    int bSun = 0;
+    int bMon;
+    int bTue;
+    int bWed;
+    int bThu;
+    int bFri;
+    int bSat;
+    int bSun;
+
+    int delay;
+    int weather;
 
 
     ////////view//////////
@@ -41,7 +44,7 @@ public class AlarmItem {
     public AlarmItem() {
     }
 
-    public AlarmItem(String noon, int hour, int minute, int bMon, int bTue, int bWed, int bThu, int bFri, int bSat, int bSun){
+    public AlarmItem(String noon, int hour, int minute, int bMon, int bTue, int bWed, int bThu, int bFri, int bSat, int bSun, int delay, int weather){
         this.noon = noon;
         this.hour = hour;
         this.minute = minute;
@@ -52,6 +55,24 @@ public class AlarmItem {
         this.bFri = bFri;
         this.bSat = bSat;
         this.bSun = bSun;
+        this.weather = weather;
+        this.delay = delay;
+    }
+
+    public int getDelay() {
+        return delay;
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+
+    public int getWeather() {
+        return weather;
+    }
+
+    public void setWeather(int weather) {
+        this.weather = weather;
     }
 
     public int getbMon() {
