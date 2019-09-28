@@ -2,7 +2,10 @@ package com.example.weatheralarmapp.main_fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +56,7 @@ public class AlarmFragment extends Fragment {
     boolean editStatus = false;
     boolean plusStatus = false;
 
+
     DBHelper dbHelper;
 
 
@@ -61,6 +65,7 @@ public class AlarmFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = container.getContext();
+        editStatus = false;
 
         dbHelper = new DBHelper(context.getApplicationContext(), DBConst.ALARM_TABLE_NAME, null, DBConst.DATABASE_VERSION);
 
@@ -71,13 +76,14 @@ public class AlarmFragment extends Fragment {
         tvPlus = view.findViewById(R.id.tvPlus); //추가
         listAlarm = view.findViewById(R.id.listAlarm);
 
-/*
+
+
         dbHelper.AllDelete(dbHelper.getReadableDatabase());
-        dbHelper.addContact("AM", 10, 11, 1, 0,0,0, 1, 0, 1, 10, 1);
-        dbHelper.addContact("PM", 02, 12, 0, 1,0,0, 0, 1, 0, 5, 1);
-        dbHelper.addContact("PM", 03, 13, 1, 1,1,0, 0, 1, 1, 15, 1);
-        dbHelper.addContact("AM", 07, 14, 0, 1,0,1, 1, 0, 0, 0, 0);
-*/
+        dbHelper.addContact(0,"AM", 10, 11, 1, 0,0,0, 1, 0, 1, 10, 1);
+        dbHelper.addContact(1,"PM", 02, 12, 0, 1,0,0, 0, 1, 0, 5, 1);
+        dbHelper.addContact(2,"PM", 03, 13, 1, 1,1,0, 0, 1, 1, 15, 1);
+        dbHelper.addContact(3,"AM", 07, 14, 0, 1,0,1, 1, 0, 0, 0, 0);
+
 //        adapter.addItem(new AlarmItem("오전", 8, 10, 1, 1,0,1, 1, 1, 0));
 //        adapter.addItem(new AlarmItem("오전", 8, 10, 1, 1,0,1, 1, 1, 0));
 //        adapter.addItem(new AlarmItem("오전", 8, 10, 1, 1,0,1, 1, 1, 0));
@@ -85,7 +91,7 @@ public class AlarmFragment extends Fragment {
 //        adapter.addItem(new AlarmItem("오전", 8, 10, 1, 1,0,1, 1, 1, 0));
 //        adapter.addItem(new AlarmItem("오전", 8, 10, 1, 1,0,1, 1, 1, 0));
 
-        ArrayList<AlarmItem> alarmItems = dbHelper.readContact();
+        final ArrayList<AlarmItem> alarmItems = dbHelper.readContact();
 
         adapter = new ReAlarmAdapter(alarmItems);
 
@@ -122,9 +128,82 @@ public class AlarmFragment extends Fragment {
                     editStatus = !editStatus;
                     plusStatus = !plusStatus;
                 }else{
-                    int id = adapter.pos;
-                    dbHelper.delete(dbHelper.getReadableDatabase(), id);
+                    for(int id = 0 ; id < adapter.getItemCount(); id++){
+                        if(adapter.getItem(id).isSelected()){
+                       // if(alarmItems.get(id).isSelected()){
+                            Log.d("pos", String.valueOf(id));
+                            Log.d("cou", String.valueOf(adapter.getItemCount()));
+                            alarmItems.remove(id);
+                            Log.d("pos2", String.valueOf(id));
+                            Log.d("cou2", String.valueOf(adapter.getItemCount()));
+                            dbHelper.delete(id, dbHelper.getWritableDatabase());
+                        }
+                    }
+
+                    SQLiteDatabase database = dbHelper.getWritableDatabase();
+                    Cursor cursor = dbHelper.readAlarmContact(database);
+                 //   Log.d("pos", String.valueOf(id));
+                    for (int j = 0; j < adapter.getItemCount(); j++) {
+                        cursor.moveToNext();
+                        dbHelper.idUpdate(cursor.getInt(0), j, database);
+                        Log.d("count", String.valueOf(cursor.getInt(0)));
+                    }
+                    Log.d("cou", String.valueOf(adapter.getItemCount()));
+
+
+
+//                        int index[] = adapter.getItem(i);
+/*
+                        int id = adapter.pos;
+                        boolean checked = adapter.checked;
+                        if(checked == true) {
+//                        alarmItems.get(id).tbAlarmDeleteCheck.isChecked();;
+                            adapter.checked = false;
+                            alarmItems.remove(id);
+
+                            SQLiteDatabase database = dbHelper.getWritableDatabase();
+                            Cursor cursor = dbHelper.readAlarmContact(database);
+
+                            Log.d("pos", String.valueOf(id));
+                            for (int j = 0; j < adapter.getItemCount(); j++) {
+                                cursor.moveToNext();
+                                dbHelper.idUpdate(cursor.getInt(0), j, database);
+                                Log.d("count", String.valueOf(cursor.getInt(0)));
+                            }
+                            dbHelper.delete(id, checked, dbHelper.getWritableDatabase());
+                            Log.d("cou", String.valueOf(adapter.getItemCount()));
+
+                        }
+
+*/
+//                    Log.d("db", String.valueOf(dbHelper.getColumn(id+3, dbHelper.getReadableDatabase()).getPosition()));
+//                    int i = 0;
+//                    int index[] = new int[adapter.getItemCount()];
+//                    if(adapter.getItem(adapter.pos).tbAlarmDeleteCheck.isChecked()== true){
+//                        index[i] = adapter.pos;
+//                        i++;
+//                        Log.d("index", index.toString());
+//                    }
+//
+//                    for(int j = 0 ; j<adapter.getItemCount(); j++){
+//                        int id = index[j];
+//                        alarmItems.remove(id);
+//                        SQLiteDatabase database = dbHelper.getWritableDatabase();
+//                        Cursor cursor = dbHelper.readAlarmContact(database);
+//
+//                        Log.d("pos", String.valueOf(id));
+//                        for (int k = 0; k < adapter.getItemCount(); k++) {
+//                            cursor.moveToNext();
+//                            dbHelper.idUpdate(cursor.getInt(0), k, database);
+//                            Log.d("count", String.valueOf(cursor.getInt(0)));
+//                        }
+//                        dbHelper.delete(id, dbHelper.getWritableDatabase());
+//                    }
+
+
                     adapter.notifyDataSetChanged();
+                    dbHelper.close();
+
                 }
 //                tvEdit.setVisibility(View.GONE);
 //                tvCancel.setVisibility(View.VISIBLE);

@@ -2,13 +2,16 @@ package com.example.weatheralarmapp.alarm;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.weatheralarmapp.AlarmAddActivity;
 import com.example.weatheralarmapp.R;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHolder> {
@@ -24,7 +28,6 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
     ArrayList<AlarmItem> alarms = new ArrayList<AlarmItem>();
     public boolean modiStatus = false;
     Context context;
-    public boolean posStatus = false;
     public int pos;
 
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
@@ -40,7 +43,7 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
         ImageView ivSat;
         ImageView ivSun;
         ToggleButton toggleButton;
-        ToggleButton tbAlarmDeleteCheck;
+        CheckBox cbAlarmDeleteCheck;
         ImageView ivAlarmEdit;
 
         ViewHolder(View itemView) {
@@ -58,7 +61,7 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
             ivSat = itemView.findViewById(R.id.ivSat);
             ivSun = itemView.findViewById(R.id.ivSun);
             toggleButton = itemView.findViewById(R.id.toggleButton);
-            tbAlarmDeleteCheck = itemView.findViewById(R.id.tbAlarmDeleteCheck);
+            cbAlarmDeleteCheck = itemView.findViewById(R.id.cbAlarmDeleteCheck);
             ivAlarmEdit = itemView.findViewById(R.id.ivAlarmEdit);
         }
     }
@@ -76,32 +79,33 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
         View view = inflater.inflate(R.layout.listview_item_alarm, parent, false) ;
         ReAlarmAdapter.ViewHolder vh = new ReAlarmAdapter.ViewHolder(view) ;
 
-        ToggleButton toggleButton = view.findViewById(R.id.toggleButton) ;
-        ToggleButton tbAlarmDeleteCheck = view.findViewById(R.id.tbAlarmDeleteCheck);
-        ImageView ivAlarmEdit = view.findViewById(R.id.ivAlarmEdit);
-
-        TextView tvNoon = view.findViewById(R.id.tvNoon);
-        TextView tvHour = view.findViewById(R.id.tvHour);
-        TextView tvMinute = view.findViewById(R.id.tvMinute);
-        ImageView ivMon = view.findViewById(R.id.ivMon);
-        ImageView ivTue = view.findViewById(R.id.ivTue);
-        ImageView ivWed = view.findViewById(R.id.ivWed);
-        ImageView ivThu = view.findViewById(R.id.ivThu);
-        ImageView ivFri = view.findViewById(R.id.ivFri);
-        ImageView ivSat = view.findViewById(R.id.ivSat);
-        ImageView ivSun = view.findViewById(R.id.ivSun);
+//        ToggleButton toggleButton = view.findViewById(R.id.toggleButton) ;
+//        ToggleButton tbAlarmDeleteCheck = view.findViewById(R.id.tbAlarmDeleteCheck);
+//        ImageView ivAlarmEdit = view.findViewById(R.id.ivAlarmEdit);
+//
+//        TextView tvNoon = view.findViewById(R.id.tvNoon);
+//        TextView tvHour = view.findViewById(R.id.tvHour);
+//        TextView tvMinute = view.findViewById(R.id.tvMinute);
+//        ImageView ivMon = view.findViewById(R.id.ivMon);
+//        ImageView ivTue = view.findViewById(R.id.ivTue);
+//        ImageView ivWed = view.findViewById(R.id.ivWed);
+//        ImageView ivThu = view.findViewById(R.id.ivThu);
+//        ImageView ivFri = view.findViewById(R.id.ivFri);
+//        ImageView ivSat = view.findViewById(R.id.ivSat);
+//        ImageView ivSun = view.findViewById(R.id.ivSun);
 
         return vh ;
     }
 
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     @Override
-    public void onBindViewHolder(ViewHolder vh, final int position) {
+    public void onBindViewHolder(ViewHolder vh, int position) {
 
  //       AlarmItem alarmItem = alarms.get(vh.getAdapterPosition());
         if(!modiStatus) {
             // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
             AlarmItem alarmItem = alarms.get(position);
+            pos = position;
 
             // 아이템 내 각 위젯에 데이터 반영
             // 데이터 세팅
@@ -110,7 +114,7 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
             vh.tvMinute.setText(alarmItem.getMinute()+"");
             vh.ivAlarmEdit.setVisibility(View.GONE);
             vh.toggleButton.setVisibility(View.VISIBLE);
-            vh.tbAlarmDeleteCheck.setVisibility(View.GONE);
+            vh.cbAlarmDeleteCheck.setVisibility(View.GONE);
             if(alarmItem.getbMon() != 0) {
                 vh.ivMon.setImageResource(R.drawable.mon);
             }
@@ -134,7 +138,7 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
             }
         }else{
             AlarmItem alarmItem = alarms.get(position);
-
+            pos = position;
             // 아이템 내 각 위젯에 데이터 반영
             // 데이터 세팅
             vh.tvNoon.setText(alarmItem.getNoon());
@@ -142,7 +146,9 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
             vh.tvMinute.setText(alarmItem.getMinute()+"");
             vh.ivAlarmEdit.setVisibility(View.VISIBLE);
             vh.toggleButton.setVisibility(View.GONE);
-            vh.tbAlarmDeleteCheck.setVisibility(View.VISIBLE);
+            vh.cbAlarmDeleteCheck.setVisibility(View.VISIBLE);
+            vh.cbAlarmDeleteCheck.setChecked(alarmItem.isSelected());
+            vh.cbAlarmDeleteCheck.setTag(alarmItem);
             if(alarmItem.getbMon() != 0) {
                 vh.ivMon.setImageResource(R.drawable.mon);
             }
@@ -175,18 +181,33 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
                 }
             });
 
-            vh.tbAlarmDeleteCheck.setOnClickListener(new View.OnClickListener() {
+            vh.cbAlarmDeleteCheck.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(posStatus){
-                        pos = position;
-                        posStatus = !posStatus;
-                    }else {
-                        pos = 0;
-                        posStatus = !posStatus;
+                    /*
+                    Log.d("id", String.valueOf(pos));
+                    if (vh.cbAlarmDeleteCheck.isChecked() == true)
+                        checked = true;
+                    else {
+                        vh.cbAlarmDeleteCheck.setChecked(false);
+                        checked = false;
                     }
+                    */
+                    CheckBox cb = (CheckBox) v;
+                    AlarmItem contact = (AlarmItem) cb.getTag();
+
+                    contact.setSelected(cb.isChecked());
+                    alarms.get(pos).setSelected(cb.isChecked());
+
+                    Toast.makeText(
+                            v.getContext(),
+                            "Clicked on Checkbox: " + cb.getText() + " is "
+                                    + cb.isChecked(), Toast.LENGTH_LONG).show();
                 }
+
             });
+
+
         }
     }
 
@@ -213,9 +234,24 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
         temp.setMinute(item.minute);
         temp.setNoon(item.noon);
         temp.setIvAlarmEdit(item.ivAlarmEdit);
-        temp.setTbAlarmDeleteCheck(item.tbAlarmDeleteCheck);
+        temp.setCbAlarmDeleteCheck(item.cbAlarmDeleteCheck);
         temp.setToggleButton(item.toggleButton);
 
         alarms.add(temp);
     }
+
+    public AlarmItem getItem(int position){
+        return alarms.get(position);
+    }
+
+    public int[] getItemPos(int position){
+        int index[] = new int[alarms.size()];
+        for(int i =0 ; i<alarms.size() ; i++){
+            index[i] = position;
+        }
+        return index;
+    }
+
+
+
 }
