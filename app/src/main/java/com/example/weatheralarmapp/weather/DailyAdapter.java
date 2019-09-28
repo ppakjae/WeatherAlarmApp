@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -75,5 +74,11 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
         dailyItems.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, dailyItems.size()); // 지워진 만큼 다시 채워넣기.
+    }
+
+    public void updateData(ArrayList<WeatherDayilyHourlyItem> items){
+        dailyItems.clear();
+        dailyItems.addAll(items);
+        notifyDataSetChanged();
     }
 }

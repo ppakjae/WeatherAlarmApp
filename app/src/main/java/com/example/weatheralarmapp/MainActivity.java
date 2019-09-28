@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-    WeatherFragment weatherFragment;
+    public WeatherFragment weatherFragment;
     AlarmFragment alarmFragment;
     MemoFragment memoFragment;
 
@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
             checkRunTimePermission();
         }
 
-//        "https://apis.openapi.sk.com/weather/current/minutely?appkey=21ba537b-98d5-4ac0-ae6e-7f8cdf80af64&stnid=108"
 
         try{
             Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
@@ -81,34 +80,32 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+
+        InitGPS();                  //앱을 켜자마자 위치정보를 가져옴.
+        InitView();                 //앱 시작시, 뷰 초기화
+        InitFragment();             //앱 시작시, 첫번째 화면 세팅
+
+    }
+
+    private void InitGPS(){
         gpsTracker = new GpsTracker(MainActivity.this);
         values = new ContentValues();
         latitude = gpsTracker.getLatitude();
         longitude = gpsTracker.getLongitude();
         values.put("lat", latitude);
         values.put("lon", longitude);
-
-        InitView();
-        InitFragment();
-        ChangeCity();
-        RefreshInfo();
-    }
-
-    private void RefreshInfo() {
-    }
-
-    private void ChangeCity() {
     }
 
     private void InitFragment(){
         fragmentManager = getSupportFragmentManager();
-
-        gpsTracker = new GpsTracker(MainActivity.this);
         weatherFragment = new WeatherFragment(MainActivity.this, values);
+        weatherFragment.weatherAsynTask.execute();
+
         memoFragment = new MemoFragment();
         alarmFragment = new AlarmFragment();
 
         fragmentTransaction.replace(R.id.fragmentContainer, weatherFragment).commit();
+
 
     }
 
