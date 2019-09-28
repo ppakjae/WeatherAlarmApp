@@ -98,7 +98,7 @@ public class DBHelper extends SQLiteOpenHelper {
             items.add(alarmItem);
 
 
-
+            
         }
 
         db.close();
