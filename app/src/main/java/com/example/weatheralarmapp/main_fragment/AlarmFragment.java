@@ -79,10 +79,10 @@ public class AlarmFragment extends Fragment {
 
 
         dbHelper.AllDelete(dbHelper.getReadableDatabase());
-        dbHelper.addContact(0,"AM", 10, 11, 1, 0,0,0, 1, 0, 1, 10, 1);
-        dbHelper.addContact(1,"PM", 02, 12, 0, 1,0,0, 0, 1, 0, 5, 1);
-        dbHelper.addContact(2,"PM", 03, 13, 1, 1,1,0, 0, 1, 1, 15, 1);
-        dbHelper.addContact(3,"AM", 07, 14, 0, 1,0,1, 1, 0, 0, 0, 0);
+        dbHelper.addContact(0,"AM", 10, 11, 1, 0,0,0, 1, 0, 1, 10, 1, 1);
+        dbHelper.addContact(1,"PM", 02, 12, 0, 1,0,0, 0, 1, 0, 5, 1, 1);
+        dbHelper.addContact(2,"PM", 03, 13, 1, 1,1,0, 0, 1, 1, 15, 1, 1);
+        dbHelper.addContact(3,"AM", 07, 14, 0, 1,0,1, 1, 0, 0, 0, 0, 1);
 
 //        adapter.addItem(new AlarmItem("오전", 8, 10, 1, 1,0,1, 1, 1, 0));
 //        adapter.addItem(new AlarmItem("오전", 8, 10, 1, 1,0,1, 1, 1, 0));
