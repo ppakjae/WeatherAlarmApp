@@ -10,11 +10,14 @@ import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.PowerManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
 import com.example.weatheralarmapp.alarm.AlarmWakeUpActivity;
+import com.example.weatheralarmapp.db_connect.DBConst;
+import com.example.weatheralarmapp.db_connect.DBHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,10 +28,16 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
+    DBHelper dbHelper;
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
         // throw new UnsupportedOperationException("not yet implemented");
+
+        dbHelper = new DBHelper(context, DBConst.ALARM_TABLE_NAME, null, DBConst.DATABASE_VERSION);
+
+
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Intent notificationIntent = new Intent(context, AlarmAddActivity.class);
@@ -98,7 +107,9 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             Calendar nextNotifyTime = Calendar.getInstance();
 
-            //지워야지
+            Log.d("nextNotifiyTime", nextNotifyTime + "");
+
+            //지워야지 -> 여기서 반복을??
             // 내일 같은 시간으로 알람시간 결정
 //            nextNotifyTime.add(Calendar.DATE, 1);
 
@@ -111,6 +122,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             Date currentDateTime = nextNotifyTime.getTime();
             String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(currentDateTime);
             Toast.makeText(context.getApplicationContext(),"다음 알람은 " + date_text + "으로 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
+            Log.d("currentDateTime", currentDateTime + "");
+            Log.d("date_text", date_text);
         }
     }
 

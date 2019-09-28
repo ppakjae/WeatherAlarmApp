@@ -45,8 +45,8 @@ public class AlarmWakeUpActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), AlarmSoundService.class);
                 stopService(intent); // 서비스 종료
                 Log.d("offAlarm", "offAlarm");
-
-                //어플리케이션 실행 종료 해야함
+                //어플리케이션 실행 종료-> 완전히 종료되는 것인가??
+                finish();
 
             }        });
     }

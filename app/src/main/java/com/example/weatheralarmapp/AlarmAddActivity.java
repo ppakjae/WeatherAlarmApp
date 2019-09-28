@@ -117,7 +117,7 @@ public class AlarmAddActivity extends AppCompatActivity implements WeatherAlarmO
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(),sound_items.get(position)+"()가 선택되었습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),sound_items.get(position)+"(이)가 선택되었습니다.", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -227,6 +227,9 @@ public class AlarmAddActivity extends AppCompatActivity implements WeatherAlarmO
                 setDbHelper(am_pm, hour, minute, repeatInt, early);
 
                 diaryNotification(calendar);
+
+                //알람 추가하고 액티비티 사라짐 -> alarm fragment에서 업데이트 할것.
+                onBackPressed();
 
             }
         });
