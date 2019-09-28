@@ -28,7 +28,7 @@
             <TextView
                 android:layout_width="230dp"
                 android:layout_height="30dp"
-                android:text="70% 이상의 강수/적설량이 예상되는 경우, 설정된 알람 시간보다 자동으로 일찍 깨우는 스마트 알람입니다. "
+                android:text="비나 눈이 올 것으로 예상되는 경우, 설정된 알람 시간보다 자동으로 일찍 깨우는 스마트 알람입니다. "
                 android:textSize="10sp"
                 android:layout_centerInParent="true"/>
 

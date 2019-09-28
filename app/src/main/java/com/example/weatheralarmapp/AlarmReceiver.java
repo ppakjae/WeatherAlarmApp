@@ -10,11 +10,14 @@ import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.PowerManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
 import com.example.weatheralarmapp.alarm.AlarmWakeUpActivity;
+import com.example.weatheralarmapp.db_connect.DBConst;
+import com.example.weatheralarmapp.db_connect.DBHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,10 +28,16 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
+    DBHelper dbHelper;
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
         // throw new UnsupportedOperationException("not yet implemented");
+
+        dbHelper = new DBHelper(context, DBConst.ALARM_TABLE_NAME, null, DBConst.DATABASE_VERSION);
+
+
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Intent notificationIntent = new Intent(context, AlarmAddActivity.class);
@@ -38,6 +47,11 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         PendingIntent pendingI = PendingIntent.getActivity(context, 0,
                 notificationIntent, 0);
+
+//        Intent wakeupIntent = new Intent(context, AlarmWakeUpActivity.class);
+//
+//        PendingIntent pendingWakeUp = PendingIntent.getActivity(context, 1,
+//                wakeupIntent, 0);
 
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default");
@@ -74,6 +88,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         if (notificationManager != null) {
 
+            //화면 끈 상태에서 켜지기
 
             PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK  |
@@ -92,9 +107,13 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             Calendar nextNotifyTime = Calendar.getInstance();
 
-            // 내일 같은 시간으로 알람시간 결정
-            nextNotifyTime.add(Calendar.DATE, 1);
+            Log.d("nextNotifiyTime", nextNotifyTime + "");
 
+            //지워야지 -> 여기서 반복을??
+            // 내일 같은 시간으로 알람시간 결정
+//            nextNotifyTime.add(Calendar.DATE, 1);
+
+            //지워야지
             //  Preference에 설정한 값 저장
             SharedPreferences.Editor editor = context.getSharedPreferences("daily alarm", MODE_PRIVATE).edit();
             editor.putLong("nextNotifyTime", nextNotifyTime.getTimeInMillis());
@@ -103,15 +122,17 @@ public class AlarmReceiver extends BroadcastReceiver {
             Date currentDateTime = nextNotifyTime.getTime();
             String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(currentDateTime);
             Toast.makeText(context.getApplicationContext(),"다음 알람은 " + date_text + "으로 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
+            Log.d("currentDateTime", currentDateTime + "");
+            Log.d("date_text", date_text);
         }
     }
 
-    public void startSound(Context context) {
-        //Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        //Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        Uri notification = Uri.parse("android.resource://com.example.alarmexample/raw/gradius");
-        android.media.Ringtone r = RingtoneManager.getRingtone(context, notification);
-        r.play();
-    }
+//    public void startSound(Context context) {
+//        //Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//        //Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+//        Uri notification = Uri.parse("android.resource://com.example.alarmexample/raw/gradius");
+//        android.media.Ringtone r = RingtoneManager.getRingtone(context, notification);
+//        r.play();
+//    }
 
 }
