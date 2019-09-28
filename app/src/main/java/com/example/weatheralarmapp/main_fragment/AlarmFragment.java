@@ -71,13 +71,13 @@ public class AlarmFragment extends Fragment {
         tvPlus = view.findViewById(R.id.tvPlus); //추가
         listAlarm = view.findViewById(R.id.listAlarm);
 
-
+/*
         dbHelper.AllDelete(dbHelper.getReadableDatabase());
-        dbHelper.addContact("오전", 8, 10, 1, 1,0,1, 1, 1, 0, 0, "wea");
-        dbHelper.addContact("오전", 8, 10, 1, 1,0,1, 1, 1, 0, 0, "wea");
-        dbHelper.addContact("오전", 8, 10, 1, 1,0,1, 1, 1, 0, 0, "wea");
-        dbHelper.addContact("오전", 8, 10, 1, 1,0,1, 1, 1, 0, 0, "wea");
-
+        dbHelper.addContact("AM", 10, 11, 1, 0,0,0, 1, 0, 1, 10, 1);
+        dbHelper.addContact("PM", 02, 12, 0, 1,0,0, 0, 1, 0, 5, 1);
+        dbHelper.addContact("PM", 03, 13, 1, 1,1,0, 0, 1, 1, 15, 1);
+        dbHelper.addContact("AM", 07, 14, 0, 1,0,1, 1, 0, 0, 0, 0);
+*/
 //        adapter.addItem(new AlarmItem("오전", 8, 10, 1, 1,0,1, 1, 1, 0));
 //        adapter.addItem(new AlarmItem("오전", 8, 10, 1, 1,0,1, 1, 1, 0));
 //        adapter.addItem(new AlarmItem("오전", 8, 10, 1, 1,0,1, 1, 1, 0));
@@ -122,8 +122,9 @@ public class AlarmFragment extends Fragment {
                     editStatus = !editStatus;
                     plusStatus = !plusStatus;
                 }else{
-      //              int id = adapter.getItemId(getView().getId());
-     //               dbHelper.delete(dbHelper.getReadableDatabase(), id);
+                    int id = adapter.pos;
+                    dbHelper.delete(dbHelper.getReadableDatabase(), id);
+                    adapter.notifyDataSetChanged();
                 }
 //                tvEdit.setVisibility(View.GONE);
 //                tvCancel.setVisibility(View.VISIBLE);

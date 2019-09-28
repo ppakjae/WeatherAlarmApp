@@ -24,6 +24,8 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
     ArrayList<AlarmItem> alarms = new ArrayList<AlarmItem>();
     public boolean modiStatus = false;
     Context context;
+    public boolean posStatus = false;
+    public int pos;
 
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -94,7 +96,7 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
 
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     @Override
-    public void onBindViewHolder(ViewHolder vh, int position) {
+    public void onBindViewHolder(ViewHolder vh, final int position) {
 
  //       AlarmItem alarmItem = alarms.get(vh.getAdapterPosition());
         if(!modiStatus) {
@@ -172,8 +174,20 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
 
                 }
             });
-        }
 
+            vh.tbAlarmDeleteCheck.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(posStatus){
+                        pos = position;
+                        posStatus = !posStatus;
+                    }else {
+                        pos = 0;
+                        posStatus = !posStatus;
+                    }
+                }
+            });
+        }
     }
 
     // getItemCount() - 전체 데이터 갯수 리턴.
