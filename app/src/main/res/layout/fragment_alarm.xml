@@ -29,6 +29,7 @@
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="30dp"
                 android:text="편집"
+                android:textColor="@color/textBlack"
                 android:visibility="visible"
                 android:textSize="12sp" />
         </RelativeLayout>
@@ -42,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="알람"
+                android:textColor="@color/textBlack"
                 android:textStyle="bold"
                 android:textSize="14sp"
                 android:layout_margin="30dp"
@@ -61,6 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="30dp"
                 android:text="추가"
+                android:textColor="@color/textBlack"
                 android:textSize="12sp"/>
         </RelativeLayout>
 
@@ -70,17 +73,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ListView
+
+
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listAlarm"
+                android:scrollbars="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="#ffffff"
                 android:listSelector="@android:color/transparent"
                 android:dividerHeight="1dp"
                 android:clickable="false"
                 android:focusable="false"
-                android:visibility="visible">
-            </ListView>
+                android:visibility="visible"
+                />
 
             <View
                 android:id="@+id/view_item"

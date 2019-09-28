@@ -41,7 +41,7 @@ public class DBHelper extends SQLiteOpenHelper {
                         "sat integer, " +
                         "sun integer, " +
                         "delay integer, " +
-                        "weather text);";
+                        "weather integer);";
 
         final String diarySQL = "create table diary (" +
                 "id integer primary key, " +
@@ -63,9 +63,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // 현재 이 클래스는 SQLiteOpenHelper를 상속받고 있기 때문에 구지 SQLiteDatabase 를 매개변수로 주지 않으셔도됩니다.
     public void addContact( String noon, int hour, int minute,
-                           int mon, int tue, int wed, int thu, int fri, int sat, int sun, int delay, String weather) {
+                           int mon, int tue, int wed, int thu, int fri, int sat, int sun, int delay, int weather) {
         SQLiteDatabase db = getWritableDatabase();
-        String sql = String.format("insert into alarm values(null,'%s','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%s');",
+        String sql = String.format("insert into alarm values(null, '%s','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d');",
                                       noon, hour, minute, mon, tue, wed, thu, fri, sat, sun, delay, weather);
         db.execSQL(sql);
 
@@ -85,13 +85,15 @@ public class DBHelper extends SQLiteOpenHelper {
             alarmItem.setNoon(cursor.getString(1));
             alarmItem.setHour(cursor.getInt(2));
             alarmItem.setMinute(cursor.getInt(3));
-            alarmItem.setMon(cursor.getInt(4));
-            alarmItem.setTue(cursor.getInt(5));
-            alarmItem.setWed(cursor.getInt(6));
-            alarmItem.setThu(cursor.getInt(7));
-            alarmItem.setFri(cursor.getInt(8));
-            alarmItem.setSat(cursor.getInt(8));
-            alarmItem.setSun(cursor.getInt(8));
+            alarmItem.setbMon(cursor.getInt(4));
+            alarmItem.setbTue(cursor.getInt(5));
+            alarmItem.setbWed(cursor.getInt(6));
+            alarmItem.setbThu(cursor.getInt(7));
+            alarmItem.setbFri(cursor.getInt(8));
+            alarmItem.setbSat(cursor.getInt(9));
+            alarmItem.setbSun(cursor.getInt(10));
+            alarmItem.setDelay(cursor.getInt(11));
+            alarmItem.setWeather(cursor.getInt(12));
 
             items.add(alarmItem);
 
@@ -106,6 +108,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void AllDelete(SQLiteDatabase database) {
         database.delete("alarm", null, null);
+    }
+
+    public void delete(SQLiteDatabase database, int id ){
+        String sql = String.format("delete from alarm where id=('%d');", id);
+        database.execSQL(sql);
+        database.close();
     }
 
     public Cursor getAllColumns(SQLiteDatabase database) {

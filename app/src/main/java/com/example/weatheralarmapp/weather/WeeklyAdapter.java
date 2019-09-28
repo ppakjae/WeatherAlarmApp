@@ -20,7 +20,7 @@ public class WeeklyAdapter extends RecyclerView.Adapter<WeeklyAdapter.ViewHolder
     private Activity activity;
     private ArrayList<WeatherWeeklyItem> weeklyItems;
 
-    WeeklyAdapter(Activity activity, ArrayList<WeatherWeeklyItem> weeklyItems){
+    public WeeklyAdapter(Activity activity, ArrayList<WeatherWeeklyItem> weeklyItems){
         this.activity = activity;
         this.weeklyItems = weeklyItems;
     }
@@ -53,6 +53,7 @@ public class WeeklyAdapter extends RecyclerView.Adapter<WeeklyAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listview_item_weather_weekly, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
+
         return viewHolder;
     }
 
@@ -62,8 +63,9 @@ public class WeeklyAdapter extends RecyclerView.Adapter<WeeklyAdapter.ViewHolder
 
         holder.txtWeeklyItemDay.setText(data.getDay());
 //        holder.imgWeeklyItemIcon.setImageResource(data.getWeather());
-        holder.txtWeeklyHighTemper.setText(data.getDay());
-        holder.txtWeeklyLowTemper.setText(data.getLowTemper());
+        holder.txtWeeklyHighTemper.setText(data.getTmax());
+        holder.txtWeeklyLowTemper.setText(data.getTmin());
+
     }
 
     @Override
@@ -76,4 +78,19 @@ public class WeeklyAdapter extends RecyclerView.Adapter<WeeklyAdapter.ViewHolder
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, weeklyItems.size()); // 지워진 만큼 다시 채워넣기.
     }
+
+    public void setItems(ArrayList<WeatherWeeklyItem> items){
+        this.weeklyItems = items;
+    }
+
+    public void removeItems(){
+        weeklyItems.clear();
+    }
+
+    public void updateData(ArrayList<WeatherWeeklyItem> items){
+        weeklyItems.clear();
+        weeklyItems.addAll(items);
+        notifyDataSetChanged();
+    }
+
 }

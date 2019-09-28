@@ -6,17 +6,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.weatheralarmapp.alarm.AlarmAdapter;
 import com.example.weatheralarmapp.AlarmAddActivity;
 import com.example.weatheralarmapp.alarm.AlarmItem;
 import com.example.weatheralarmapp.R;
+import com.example.weatheralarmapp.alarm.ReAlarmAdapter;
 import com.example.weatheralarmapp.db_connect.DBConst;
 import com.example.weatheralarmapp.db_connect.DBHelper;
 
@@ -33,9 +37,9 @@ public class AlarmFragment extends Fragment {
     TextView tvPlus;
     TextView tvCancel;
 
-    ListView listAlarm;
+    RecyclerView listAlarm;
 
-    AlarmAdapter adapter;
+    ReAlarmAdapter adapter;
 
     String noon;
     String hour;
@@ -47,6 +51,7 @@ public class AlarmFragment extends Fragment {
     // true 일때 수정모드 text는 취소
     // 로작업하는게 좋습니다.
     boolean editStatus = false;
+    boolean plusStatus = false;
 
     DBHelper dbHelper;
 
@@ -66,14 +71,13 @@ public class AlarmFragment extends Fragment {
         tvPlus = view.findViewById(R.id.tvPlus); //추가
         listAlarm = view.findViewById(R.id.listAlarm);
 
-
-        adapter = new AlarmAdapter();
-
-        dbHelper.addContact("오전", 8, 10, 1, 1,0,1, 1, 1, 0, 0, "wea");
-        dbHelper.addContact("오전", 8, 10, 1, 1,0,1, 1, 1, 0, 0, "wea");
-        dbHelper.addContact("오전", 8, 10, 1, 1,0,1, 1, 1, 0, 0, "wea");
-        dbHelper.addContact("오전", 8, 10, 1, 1,0,1, 1, 1, 0, 0, "wea");
-
+/*
+        dbHelper.AllDelete(dbHelper.getReadableDatabase());
+        dbHelper.addContact("AM", 10, 11, 1, 0,0,0, 1, 0, 1, 10, 1);
+        dbHelper.addContact("PM", 02, 12, 0, 1,0,0, 0, 1, 0, 5, 1);
+        dbHelper.addContact("PM", 03, 13, 1, 1,1,0, 0, 1, 1, 15, 1);
+        dbHelper.addContact("AM", 07, 14, 0, 1,0,1, 1, 0, 0, 0, 0);
+*/
 //        adapter.addItem(new AlarmItem("오전", 8, 10, 1, 1,0,1, 1, 1, 0));
 //        adapter.addItem(new AlarmItem("오전", 8, 10, 1, 1,0,1, 1, 1, 0));
 //        adapter.addItem(new AlarmItem("오전", 8, 10, 1, 1,0,1, 1, 1, 0));
@@ -83,11 +87,15 @@ public class AlarmFragment extends Fragment {
 
         ArrayList<AlarmItem> alarmItems = dbHelper.readContact();
 
-        for (AlarmItem item : alarmItems){
-            adapter.addItem(item);
-        }
+        adapter = new ReAlarmAdapter(alarmItems);
 
-        listAlarm.setAdapter(adapter);
+        listAlarm.setLayoutManager(new LinearLayoutManager(context)) ;
+
+        // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
+        listAlarm.setAdapter(adapter) ;
+//        for (AlarmItem item : alarmItems){
+//            adapter.addItem(item);
+//        }
 //
 //        DBHelper db = new DBHelper(getContext());
 //        AlarmItem alarm = db.readAlarm(db);
@@ -101,12 +109,22 @@ public class AlarmFragment extends Fragment {
 
                 if(!editStatus){
                     //만약 editStatus가 false 라면 텍스트를 취소로 바꾸고 editStatus를 수정 모드인 true로 바꾼다.
-                    tvEdit.setText("취소");
+                    tvEdit.setText("삭제");
+                    tvEdit.setTextColor(getResources().getColor(R.color.textRed));
+                    tvPlus.setText("취소");
+                    if(adapter.modiStatus){
+                        adapter.modiStatus = false;
+                    }else{
+                        adapter.modiStatus = true;
+                    }
+
+                    adapter.notifyDataSetChanged();
                     editStatus = !editStatus;
+                    plusStatus = !plusStatus;
                 }else{
-                    //만약 editStatus가 true 라면 텍스트를 편집으로 바꾸고 editStatus를 다시 일반 모드인 false 로 바꾼다.
-                    tvEdit.setText("편집");
-                    editStatus = !editStatus;
+                    int id = adapter.pos;
+                    dbHelper.delete(dbHelper.getReadableDatabase(), id);
+                    adapter.notifyDataSetChanged();
                 }
 //                tvEdit.setVisibility(View.GONE);
 //                tvCancel.setVisibility(View.VISIBLE);
@@ -126,8 +144,36 @@ public class AlarmFragment extends Fragment {
         tvPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AlarmAddActivity.class);
-                startActivity(intent);
+
+                if(!plusStatus){
+                    Intent intent = new Intent(getContext(), AlarmAddActivity.class);
+                    startActivity(intent);
+
+            }else{
+                    //만약 editStatus가 true 라면 텍스트를 편집으로 바꾸고 editStatus를 다시 일반 모드인 false 로 바꾼다.
+                    tvEdit.setText("편집");
+                    tvEdit.setTextColor(getResources().getColor(R.color.textBlack));
+                    tvPlus.setText("추가");
+                    if(adapter.modiStatus){
+                        adapter.modiStatus = false;
+                    }else{
+                        adapter.modiStatus = true;
+                    }
+
+                    adapter.notifyDataSetChanged();
+
+                    editStatus = !editStatus;
+                    plusStatus = !plusStatus;
+                    /*
+                    ImageView ivAlarmEdit = (ImageView) view.findViewById(R.id.ivAlarmEdit);
+                    ToggleButton toggleButton = (ToggleButton) view.findViewById(R.id.toggleButton);
+                    ToggleButton tbAlarmDeleteCheck = (ToggleButton) view.findViewById(R.id.tbAlarmDeleteCheck);
+                    ivAlarmEdit.setVisibility(View.GONE);
+                    toggleButton.setVisibility(View.VISIBLE);
+                    tbAlarmDeleteCheck.setVisibility(View.GONE);
+                    */
+
+                }
             }
         });
 

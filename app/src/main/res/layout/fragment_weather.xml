@@ -21,19 +21,19 @@
                 android:background="@drawable/top_main_layout"
                 android:elevation="20dp">
 
+                <!--<ImageView-->
+                    <!--android:id="@+id/btnRefresh"-->
+                    <!--android:layout_width="40dp"-->
+                    <!--android:layout_height="40dp"-->
+                    <!--android:src="@drawable/refresh"-->
+                    <!--android:layout_alignParentStart="true"-->
+                    <!--android:layout_marginLeft="15dp"-->
+                    <!--android:layout_marginTop="15dp"/>-->
                 <ImageView
                     android:id="@+id/btnRefresh"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/refresh"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp"/>
-                <ImageView
-                    android:id="@+id/btnPlusCity"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/city_plus"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="15dp"/>
@@ -103,7 +103,7 @@
                     android:layout_toRightOf="@id/txtDate"
                     android:layout_below="@id/txtArea"
                     android:text="목요일"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="53dp"
                     android:layout_marginLeft="5dp"
                     android:textColor="@color/textBlack"/>
                 <TextView
