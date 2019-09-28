@@ -29,7 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         final String alarmSQL = "create table alarm (" +
-                        "id integer primary key autoincrement, " +
+                        "id integer primary key, " +
                         "noon text, " +
                         "hour integer, " +
                         "minute integer, " +
@@ -62,11 +62,11 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     // 현재 이 클래스는 SQLiteOpenHelper를 상속받고 있기 때문에 구지 SQLiteDatabase 를 매개변수로 주지 않으셔도됩니다.
-    public void addContact( String noon, int hour, int minute,
+    public void addContact( int id, String noon, int hour, int minute,
                            int mon, int tue, int wed, int thu, int fri, int sat, int sun, int delay, int weather) {
         SQLiteDatabase db = getWritableDatabase();
-        String sql = String.format("insert into alarm values(null, '%s','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d');",
-                                      noon, hour, minute, mon, tue, wed, thu, fri, sat, sun, delay, weather);
+        String sql = String.format("insert into alarm values('%d', '%s','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d');",
+                                      id, noon, hour, minute, mon, tue, wed, thu, fri, sat, sun, delay, weather);
         db.execSQL(sql);
 
         db.close();
@@ -109,13 +109,13 @@ public class DBHelper extends SQLiteOpenHelper {
     public void AllDelete(SQLiteDatabase database) {
         database.delete("alarm", null, null);
     }
-
+/*
     public void delete(SQLiteDatabase database, int id ){
-        String sql = String.format("delete from alarm where id=('%d');", id);
+        String sql = String.format("delete from alarm where id='"+ id +"';");
         database.execSQL(sql);
         database.close();
     }
-
+*/
     public Cursor getAllColumns(SQLiteDatabase database) {
         return database.query("alarm", null, null, null, null, null, null);
     }
@@ -123,7 +123,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //ID 컬럼 얻어오기
     public Cursor getColumn(long id, SQLiteDatabase database) {
         Cursor c = database.query("alarm", null,
-                "_id="+id, null, null, null, null);
+                "id="+id, null, null, null, null);
         //받아온 컬럼이 null이 아니고 0번째가 아닐경우 제일 처음으로 보냄
         if (c != null && c.getCount() != 0)
             c.moveToFirst();
@@ -153,6 +153,25 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("memo_contents", "");
 
         database.update(DBConst.MEMO_TABLE_NAME, contentValues, selection, null);
+    }
+
+    public void delete(int id, SQLiteDatabase database) {
+        database.execSQL("Delete From alarm Where id = '" + id + "';");
+    }
+
+    public Cursor readAlarmContact(SQLiteDatabase database) {
+        String sql = "select * from alarm";
+        Cursor cursor1 = database.rawQuery(sql, null);
+        return cursor1;
+    }
+
+    public void idUpdate(int id, int i, SQLiteDatabase database) {
+        ContentValues contentValues = new ContentValues();
+
+        String selection = "id = " + id;
+        contentValues.put("id", i);
+
+        database.update(DBConst.ALARM_TABLE_NAME, contentValues, selection, null);
     }
 
 //
