@@ -103,7 +103,7 @@
                     android:layout_toRightOf="@id/txtDate"
                     android:layout_below="@id/txtArea"
                     android:text="목요일"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="53dp"
                     android:layout_marginLeft="5dp"
                     android:textColor="@color/textBlack"/>
                 <TextView

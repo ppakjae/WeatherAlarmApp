@@ -19,31 +19,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.weatheralarmapp.MainActivity;
 import com.example.weatheralarmapp.R;
 import com.example.weatheralarmapp.weather.DailyAdapter;
-import com.example.weatheralarmapp.weather.GpsTracker;
 import com.example.weatheralarmapp.weather.WeatherAsynTask;
-import com.example.weatheralarmapp.weather.WeatherDayilyHourlyItem;
-import com.example.weatheralarmapp.weather.WeatherWeeklyItem;
 import com.example.weatheralarmapp.weather.WeeklyAdapter;
 
-import java.util.ArrayList;
 
 public class WeatherFragment extends Fragment {
 
-    MainActivity mainActivity;
-    GpsTracker gpsTracker;
+    public MainActivity mainActivity;
     ContentValues values;
 
     TextView txtMainTemper, txtHighTemper, txtMinTemper, txtWeather,txtArea;
     ImageView btnRefresh, imgWeahter;
     RecyclerView horizontalDaily, horizontalWeekly;
-    DailyAdapter dailyAdapter;
-    WeeklyAdapter weeklyAdapter;
+    public DailyAdapter dailyAdapter;
+    public WeeklyAdapter weeklyAdapter;
     LinearLayoutManager dManager, wManager;
     View view;
+
+    public WeatherAsynTask weatherAsynTask;     //refresh 버튼 눌렸을 때 쓰는 AsyncTask
+    WeatherAsynTask task;                       //화면이  처음 등장 할 때 쓰이는 AsyncTask
 
     public WeatherFragment(MainActivity mainActivity, ContentValues values){
         this.mainActivity = mainActivity;
         this.values = values;
+
+        weatherAsynTask = new WeatherAsynTask(null, values, WeatherFragment.this);
     }
 
 
@@ -53,8 +53,16 @@ public class WeatherFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_weather, container, false);
 
         InitView();
+        task = new WeatherAsynTask(null, values, WeatherFragment.this);
+        task.execute();
 
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
     }
 
     private void InitView() {
@@ -75,16 +83,16 @@ public class WeatherFragment extends Fragment {
         dManager = new LinearLayoutManager(getContext());
         horizontalDaily.addItemDecoration(new DividerItemDecoration(getContext(), dManager.getOrientation()));
         horizontalDaily.setLayoutManager(dManager);
-        ArrayList<WeatherDayilyHourlyItem> dailyItems = new ArrayList<>();
+//        ArrayList<WeatherDayilyHourlyItem> dailyItems = new ArrayList<>();
         //ArrayList에 담을 API 가공 처리 코드 넣기
-        dailyAdapter = new DailyAdapter(getActivity(), dailyItems);
+        dailyAdapter = new DailyAdapter(mainActivity, null);
 
         wManager = new LinearLayoutManager(getContext());
         horizontalWeekly.addItemDecoration(new DividerItemDecoration(getContext(), wManager.getOrientation()));
         horizontalWeekly.setLayoutManager(wManager);
-        ArrayList<WeatherWeeklyItem> weeklyItems = new ArrayList<WeatherWeeklyItem>();
+//        ArrayList<WeatherWeeklyItem> weeklyItems = new ArrayList<WeatherWeeklyItem>();
         //ArrayList에 담을 API 가공 처리 코드 넣기
-        weeklyAdapter = new WeeklyAdapter(getActivity(), weeklyItems);
+        weeklyAdapter = new WeeklyAdapter(mainActivity, null);
 
 
     }
@@ -97,8 +105,9 @@ public class WeatherFragment extends Fragment {
             {
                 case R.id.btnRefresh:
                     //API 정보 갱신하는 부분.
-                    WeatherAsynTask weatherAsynTask = new WeatherAsynTask(null, values, WeatherFragment.this);
-                    weatherAsynTask.execute();
+                    Toast.makeText(mainActivity.getApplicationContext(), "refesh pressed", Toast.LENGTH_SHORT).show();
+                    WeatherAsynTask asynTask = new WeatherAsynTask(null, values, WeatherFragment.this);
+                    asynTask.execute();
                     break;
 //                case R.id.btnPlusCity:
 //                    CustomDialogWeather dialog = CustomDialogWeather.getInstance();
@@ -107,4 +116,8 @@ public class WeatherFragment extends Fragment {
             }
         }
     };
+
+    public void showItems(){
+
+    }
 }

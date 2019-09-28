@@ -4,8 +4,8 @@ import android.content.ContentValues;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weatheralarmapp.R;
@@ -15,8 +15,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 // < >안에 들은 자료형은 순서대로 doInBackground, onProgressUpdate, onPostExecute의 매개변수 자료형을 뜻한다.(내가 사용할 매개변수타입을 설정하면된다)
 public class WeatherAsynTask extends AsyncTask<String, String, String> {
@@ -25,6 +30,8 @@ public class WeatherAsynTask extends AsyncTask<String, String, String> {
     WeatherFragment weatherFragment;
     private String url;
     private ContentValues contentValues;
+    public ArrayList<WeatherWeeklyItem> weatherWeeklyItemArrayList;
+    public ArrayList<WeatherDayilyHourlyItem> weatherDailyHourlyItemArrayList;
 
     public WeatherAsynTask(String url, ContentValues contentValues, WeatherFragment weatherFragment){
         this.url = url;
@@ -152,13 +159,21 @@ public class WeatherAsynTask extends AsyncTask<String, String, String> {
             String day[] = timeReleaseSplit[0].split("-");
             String dayDate = day[1]+"."+day[2];
 
+
+
             ((TextView)weatherFragment.getView().findViewById(R.id.txtMainTemper)).setText(tc);
             ((TextView)weatherFragment.getView().findViewById(R.id.txtHighTemper)).setText(tmax);
             ((TextView)weatherFragment.getView().findViewById(R.id.txtMinTemper)).setText(tmin);
             ((TextView)weatherFragment.getView().findViewById(R.id.txtWeather)).setText(skyName);
             ((TextView)weatherFragment.getView().findViewById(R.id.txtArea)).setText(area2);
             ((TextView)weatherFragment.getView().findViewById(R.id.txtDate)).setText(dayDate);
-            //Day도 해야함.
+            //Day 요일 설정
+            SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.getDefault());
+            Calendar calendar = Calendar.getInstance();
+            String weekDay = dayFormat.format(calendar.getTime());
+            ((TextView)weatherFragment.getView().findViewById(R.id.txtDay)).setText(weekDay);
+
+            System.out.println("Main Weather Mark Complete");
 
 
 //            Weekly JSON Parse
@@ -212,21 +227,31 @@ public class WeatherAsynTask extends AsyncTask<String, String, String> {
             String tmin10day = weeklyTemperature.getString("tmin10day");
             weeklyTmaxList.add(tmax2day);   weeklyTminList.add(tmin2day);           //0
             weeklyTmaxList.add(tmax3day);   weeklyTminList.add(tmin3day);           //1
-            weeklyTmaxList.add(tmax4day);   weeklyTmaxList.add(tmin4day);           //2
-            weeklyTmaxList.add(tmax5day);   weeklyTmaxList.add(tmin5day);           //3
-            weeklyTmaxList.add(tmax6day);   weeklyTmaxList.add(tmin6day);           //4
-            weeklyTmaxList.add(tmax7day);   weeklyTmaxList.add(tmin7day);           //5
-            weeklyTmaxList.add(tmax8day);   weeklyTmaxList.add(tmin8day);           //6
-            weeklyTmaxList.add(tmax9day);   weeklyTmaxList.add(tmin9day);           //7
-            weeklyTmaxList.add(tmax10day);  weeklyTmaxList.add(tmin10day);          //8
+            weeklyTmaxList.add(tmax4day);   weeklyTminList.add(tmin4day);           //2
+            weeklyTmaxList.add(tmax5day);   weeklyTminList.add(tmin5day);           //3
+            weeklyTmaxList.add(tmax6day);   weeklyTminList.add(tmin6day);           //4
+            weeklyTmaxList.add(tmax7day);   weeklyTminList.add(tmin7day);           //5
+            weeklyTmaxList.add(tmax8day);   weeklyTminList.add(tmin8day);           //6
+            weeklyTmaxList.add(tmax9day);   weeklyTminList.add(tmin9day);           //7
+            weeklyTmaxList.add(tmax10day);  weeklyTminList.add(tmin10day);          //8
 
-            ArrayList<WeatherWeeklyItem> weatherWeeklyItemArrayList = new ArrayList<>();
-//            for(int i=0;i<=weeklyTmaxList.size();i++){
-//                weatherWeeklyItemArrayList.add(new WeatherWeeklyItem(i+"days later", weeklySkyNameList.get(i), weeklyTmaxList.get(i), weeklyTminList.get(i)));
-//            }
-            WeeklyAdapter weeklyAdapter = new WeeklyAdapter(weatherFragment.getActivity(), weatherWeeklyItemArrayList);
-            ((RecyclerView)weatherFragment.getView().findViewById(R.id.horizontalViewWeekly)).setAdapter(weeklyAdapter);
+            weatherWeeklyItemArrayList = new ArrayList<>();
+            for(int i=0;i<weeklyTmaxList.size();i++){
+                weatherWeeklyItemArrayList.add(new WeatherWeeklyItem(i+2+"days later", weeklySkyNameList.get(i), weeklyTmaxList.get(i), weeklyTminList.get(i)));
+            }
+            for(int i=0;i<weatherWeeklyItemArrayList.size();i++){
+                System.out.println("weekly item"+i+":"+weatherWeeklyItemArrayList.get(i).getDay());
+            }
+            WeeklyAdapter weeklyAdapter = new WeeklyAdapter(weatherFragment.mainActivity, weatherWeeklyItemArrayList);
+            RecyclerView weeklyRecyclerView = ((RecyclerView)weatherFragment.getView().findViewById(R.id.horizontalViewWeekly));
+            weeklyRecyclerView.setHorizontalScrollBarEnabled(true);
+            weeklyRecyclerView.setAdapter(weeklyAdapter);
+            weeklyRecyclerView.invalidate();
+            weeklyRecyclerView.setHorizontalScrollBarEnabled(true);
+            weeklyRecyclerView.getAdapter().notifyDataSetChanged();
+            weeklyRecyclerView.setHorizontalScrollBarEnabled(true);
 
+            System.out.println("Weekly RecyclerView  Complete");
 
 
 
@@ -269,21 +294,37 @@ public class WeatherAsynTask extends AsyncTask<String, String, String> {
             dailyHourly_temperature_hashMap.put(16, dailyHourly_temperature_16hours_later);
             dailyHourly_temperature_hashMap.put(19, dailyHourly_temperature_19hours_later);
 
-            ArrayList<WeatherDayilyHourlyItem> weatherDayilyHourlyItemArrayList = new ArrayList<>();
+            weatherDailyHourlyItemArrayList = new ArrayList<>();
             for(int i=4;i<=19;i+=3){
-                weatherDayilyHourlyItemArrayList.add(new WeatherDayilyHourlyItem(String.valueOf(i),
-                                                                                    dailyHourly_temperature_hashMap.get(Integer.parseInt(i+"")),
-                                                                                    dailyHourly_sky_statement_hashMap.get(Integer.parseInt(i+""))));
+                weatherDailyHourlyItemArrayList.add(new WeatherDayilyHourlyItem(String.valueOf(i),
+                                                                                    dailyHourly_temperature_hashMap.get(i),
+                                                                                    dailyHourly_sky_statement_hashMap.get(i)));
             }
-            DailyAdapter dailyAdapter = new DailyAdapter(weatherFragment.getActivity(), weatherDayilyHourlyItemArrayList);
-            ((RecyclerView)weatherFragment.getView().findViewById(R.id.horizontalViewDaily)).setAdapter(dailyAdapter);
+            //제대로 리스트 만들어진거 확인 완료.
+//            for(int i=0;i<weatherDailyHourlyItemArrayList.size();i++){
+//                System.out.println("daily item"+i+":"+weatherDailyHourlyItemArrayList.get(i).getTime());
+//            }
+//            DailyAdapter dailyAdapter = new DailyAdapter(weatherFragment.mainActivity, weatherDailyHourlyItemArrayList);
+//            dailyAdapter.updateData(weatherDailyHourlyItemArrayList);
+
+            DailyAdapter dailyAdapter = new DailyAdapter(weatherFragment.mainActivity, weatherDailyHourlyItemArrayList);
+            RecyclerView dailyRecyclerView = ((RecyclerView)weatherFragment.getView().findViewById(R.id.horizontalViewDaily));
+//            dailyRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+            dailyRecyclerView.setAdapter(dailyAdapter);
+            dailyRecyclerView.invalidate();
+
+            dailyRecyclerView.getAdapter().notifyDataSetChanged();
+
+
+            System.out.println("Daily RecyclerView Complete");
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-
+        onCancelled();
     }
+
 
 }
