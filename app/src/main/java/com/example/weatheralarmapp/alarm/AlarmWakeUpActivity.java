@@ -17,6 +17,8 @@ import com.example.weatheralarmapp.AlarmReceiver;
 import com.example.weatheralarmapp.AlarmSoundService;
 import com.example.weatheralarmapp.R;
 
+import java.text.SimpleDateFormat;
+
 public class AlarmWakeUpActivity extends AppCompatActivity {
 
     Button btnAlarmWakeUp;
@@ -33,6 +35,18 @@ public class AlarmWakeUpActivity extends AppCompatActivity {
 
         tvNoon = (TextView)findViewById(R.id.tvNoon);
         tvAlarmTime = (TextView)findViewById(R.id.tvAlarmTime);
+
+        SimpleDateFormat format1 = new SimpleDateFormat("HH : mm");
+        String format_time = format1.format (System.currentTimeMillis());
+
+        SimpleDateFormat format2 = new SimpleDateFormat("HH");
+        String format_noon = format2.format (System.currentTimeMillis());
+
+        if(Integer.parseInt(format_noon) > 12){
+            tvNoon.setText("오후");
+        }
+        //24시간 확인해보고 시간도 바꾸기
+        tvAlarmTime.setText(format_time);
 
 //        PackageManager pm = this.getPackageManager();
 //        Intent alarmIntent = new Intent(this, AlarmReceiver.class);

@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.PowerManager;
@@ -19,6 +20,7 @@ import com.example.weatheralarmapp.alarm.AlarmWakeUpActivity;
 import com.example.weatheralarmapp.db_connect.DBConst;
 import com.example.weatheralarmapp.db_connect.DBHelper;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,15 +31,29 @@ import static android.content.Context.MODE_PRIVATE;
 public class AlarmReceiver extends BroadcastReceiver {
 
     DBHelper dbHelper;
+    String [] memo_arr;
+    String [] day_arr;
 
 
     @Override
     public void onReceive(Context context, Intent intent) {
         // throw new UnsupportedOperationException("not yet implemented");
+        memo_arr = new String[7];
+        day_arr = new String[7];
 
-        dbHelper = new DBHelper(context, DBConst.ALARM_TABLE_NAME, null, DBConst.DATABASE_VERSION);
+        DBHelper dbHelper = new DBHelper(context.getApplicationContext(), DBConst.MEMO_TABLE_NAME, null, DBConst.DATABASE_VERSION);
+        Cursor cursor = dbHelper.readMemoContact(dbHelper.getReadableDatabase());
+        for(int i = 0; i < cursor.getCount(); i++){
+            cursor.moveToNext();
+            String day = cursor.getString(1);
+            String memo_contents = cursor.getString(2);
+            day_arr[i] = day;
+            memo_arr[i] = memo_contents;
 
+        }
 
+        Log.d("day", day_arr[0]);
+        Log.d("memo_contents1", memo_arr[0]);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Intent notificationIntent = new Intent(context, AlarmAddActivity.class);
@@ -53,7 +69,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 //        PendingIntent pendingWakeUp = PendingIntent.getActivity(context, 1,
 //                wakeupIntent, 0);
 
-
+//        if(day_arr[0] != null){}
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default");
 
         //OREO API 26 이상에서는 채널 필요
@@ -81,8 +97,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setWhen(System.currentTimeMillis())
 
                 .setTicker("{Time to watch some cool stuff!}")
-                .setContentTitle("상태바 드래그시 보이는 타이틀")
-                .setContentText("상태바 드래그시 보이는 서브타이틀")
+                .setContentTitle(day_arr[0] + ", 오늘의 메모 알람")
+                .setContentText(memo_arr[0])
                 .setContentInfo("INFO")
                 .setContentIntent(pendingI);
 
@@ -99,6 +115,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             // 노티피케이션 동작시킴
             notificationManager.notify(1234, builder.build());
+
 
 //            startSound(context);
 //            추가된 부분 AlarmSoundService

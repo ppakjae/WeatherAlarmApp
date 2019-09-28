@@ -98,7 +98,7 @@ public class DBHelper extends SQLiteOpenHelper {
             items.add(alarmItem);
 
 
-            
+
         }
 
         db.close();
@@ -140,6 +140,8 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor1 = database.rawQuery(sql, null);
         return cursor1;
     }
+
+
 
     public void AllMemoDelete(SQLiteDatabase database) {
         database.delete("diary", null, null);

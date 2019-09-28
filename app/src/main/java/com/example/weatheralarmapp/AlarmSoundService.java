@@ -19,7 +19,7 @@ import com.example.weatheralarmapp.db_connect.DBHelper;
 
 public class AlarmSoundService extends Service {
 
-    DBHelper dbHelper;
+//    DBHelper dbHelper = new DBHelper(getApplicationContext(), DBConst.ALARM_TABLE_NAME, null, DBConst.DATABASE_VERSION);
     MediaPlayer mp;
     public AlarmSoundService() {
 
@@ -36,7 +36,8 @@ public class AlarmSoundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-//        dbHelper = new DBHelper(getApplicationContext(), DBConst.ALARM_TABLE_NAME, null, DBConst.DATABASE_VERSION);
+//        dbHelper.
+
 
         Intent StartIntent = new Intent(getApplicationContext(), AlarmWakeUpActivity.class);
         Toast.makeText(this, "알람이 울립니다.", Toast.LENGTH_SHORT).show();
