@@ -33,7 +33,6 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
     ArrayList<AlarmItem> alarms = new ArrayList<AlarmItem>();
     public boolean modiStatus = false;
     Context context;
-    public int pos;
 
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -104,13 +103,12 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
 
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     @Override
-    public void onBindViewHolder(ViewHolder vh, int position) {
+    public void onBindViewHolder(ViewHolder vh, final int position) {
 
  //       AlarmItem alarmItem = alarms.get(vh.getAdapterPosition());
         if(!modiStatus) {
             // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-            final AlarmItem alarmItem = alarms.get(position);
-            pos = position;
+            AlarmItem alarmItem = alarms.get(position);
 
             // 아이템 내 각 위젯에 데이터 반영
             // 데이터 세팅
@@ -149,13 +147,15 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
                     ToggleButton tb = (ToggleButton) v;
                     AlarmItem contact = (AlarmItem) tb.getTag();
                     contact.setTbSelected(tb.isChecked());
-                    alarms.get(pos).setSelected(tb.isChecked());
+                    alarms.get(position).setSelected(tb.isChecked());
 
                     Toast.makeText(
                             v.getContext(),
                             "Clicked on toggleButton: " + tb.getText() + " is "
                                     + tb.isChecked(), Toast.LENGTH_LONG).show();
-                    ((AlarmAddActivity)AlarmAddActivity.context).offAlarm(pos);
+                    Log.d("before", String.valueOf(position));
+                    ((AlarmAddActivity)AlarmAddActivity.context).offAlarm(position);
+                    Log.d("after", String.valueOf(position));
 
 
 
@@ -212,7 +212,6 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
 
         }else{
             AlarmItem alarmItem = alarms.get(position);
-            pos = position;
             // 아이템 내 각 위젯에 데이터 반영
             // 데이터 세팅
             vh.tvNoon.setText(alarmItem.getNoon());
@@ -271,7 +270,7 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
                     AlarmItem contact = (AlarmItem) cb.getTag();
 
                     contact.setSelected(cb.isChecked());
-                    alarms.get(pos).setSelected(cb.isChecked());
+                    alarms.get(position).setSelected(cb.isChecked());
 
                     Toast.makeText(
                             v.getContext(),

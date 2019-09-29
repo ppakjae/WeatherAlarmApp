@@ -13,9 +13,16 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.weatheralarmapp.R;
+import com.example.weatheralarmapp.alarm.AlarmItem;
 import com.example.weatheralarmapp.alarm.AlarmWakeUpActivity;
 import com.example.weatheralarmapp.db_connect.DBConst;
 import com.example.weatheralarmapp.db_connect.DBHelper;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class AlarmSoundService extends Service {
 
@@ -29,6 +36,12 @@ public class AlarmSoundService extends Service {
     public void onCreate() {
         super.onCreate();
 
+        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat weekdayFormat = new SimpleDateFormat("EE", Locale.getDefault());
+        String weekDay = weekdayFormat.format(currentTime);
+
+        Log.d("weekDay", weekDay);
+
         mp = MediaPlayer.create(this, R.raw.gradius);
         mp.setLooping(false);
 
@@ -37,7 +50,6 @@ public class AlarmSoundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 //        dbHelper.
-
 
         Intent StartIntent = new Intent(getApplicationContext(), AlarmWakeUpActivity.class);
         Toast.makeText(this, "알람이 울립니다.", Toast.LENGTH_SHORT).show();
