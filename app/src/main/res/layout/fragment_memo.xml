@@ -13,6 +13,7 @@
         android:background="#fff">
 
         <TextView
+            android:id="@+id/memoTitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="09.05 목요일"

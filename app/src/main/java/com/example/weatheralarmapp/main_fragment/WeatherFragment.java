@@ -80,15 +80,15 @@ public class WeatherFragment extends Fragment {
         horizontalDaily = (RecyclerView)view.findViewById(R.id.horizontalViewDaily);
         horizontalWeekly = (RecyclerView)view.findViewById(R.id.horizontalViewWeekly);
 
-        dManager = new LinearLayoutManager(getContext());
-        horizontalDaily.addItemDecoration(new DividerItemDecoration(getContext(), dManager.getOrientation()));
+        dManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);               //가로로 하려고 수정한 부분
+//        horizontalDaily.addItemDecoration(new DividerItemDecoration(getContext(), dManager.getOrientation()));
         horizontalDaily.setLayoutManager(dManager);
 //        ArrayList<WeatherDayilyHourlyItem> dailyItems = new ArrayList<>();
         //ArrayList에 담을 API 가공 처리 코드 넣기
         dailyAdapter = new DailyAdapter(mainActivity, null);
 
-        wManager = new LinearLayoutManager(getContext());
-        horizontalWeekly.addItemDecoration(new DividerItemDecoration(getContext(), wManager.getOrientation()));
+        wManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);               //가로로 하려고 수절한 부분.
+//        horizontalWeekly.addItemDecoration(new DividerItemDecoration(getContext(), wManager.getOrientation()));
         horizontalWeekly.setLayoutManager(wManager);
 //        ArrayList<WeatherWeeklyItem> weeklyItems = new ArrayList<WeatherWeeklyItem>();
         //ArrayList에 담을 API 가공 처리 코드 넣기
