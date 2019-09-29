@@ -185,13 +185,33 @@ public class AlarmAddActivity extends AppCompatActivity implements WeatherAlarmO
                     am_pm="AM";
                 }
 
+                boolean [] repeat = {repeatMon,repeatTue, repeatWed, repeatThur, repeatFri, repeatSat, repeatSun};
+
+                for(int i = 0; i < repeat.length; i++){
+                    if(repeat[i] == false){
+                        repeatInt[i] = 0;
+                    } else{
+                        repeatInt[i] = 1;
+                    }
+                }
+
                 // 현재 지정된 시간으로 알람 시간 설정
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(System.currentTimeMillis());
 //                Log.d("currentTimeMillis",System.currentTimeMillis()+"");
-                calendar.set(Calendar.HOUR_OF_DAY, hour_24);
-                calendar.set(Calendar.MINUTE, minute);
-                calendar.set(Calendar.SECOND, 0);
+                for (int i =0 ; i<repeatInt.length ; i++) {
+                    if (repeatInt[i] == 1) {
+                        if (i == 6) {
+                            calendar.set(Calendar.DAY_OF_WEEK, 1);
+                        }
+                        else {
+                            calendar.set(Calendar.DAY_OF_WEEK, i+2);
+                        }
+                        calendar.set(Calendar.HOUR_OF_DAY, hour_24);
+                        calendar.set(Calendar.MINUTE, minute);
+                        calendar.set(Calendar.SECOND, 0);
+                    }
+                }
 
 //                Log.d("Calendar.HOUR_OF_DAY",Calendar.HOUR_OF_DAY+"");
 //                Log.d("Calendar.MINUTE",Calendar.MINUTE+"");
@@ -213,16 +233,6 @@ public class AlarmAddActivity extends AppCompatActivity implements WeatherAlarmO
                 SharedPreferences.Editor editor = getSharedPreferences("daily alarm", MODE_PRIVATE).edit();
                 editor.putLong("nextNotifyTime", (long)calendar.getTimeInMillis());
                 editor.apply();
-
-                boolean [] repeat = {repeatMon,repeatTue, repeatWed, repeatThur, repeatFri, repeatSat, repeatSun};
-
-                for(int i = 0; i < repeat.length; i++){
-                    if(repeat[i] == false){
-                        repeatInt[i] = 0;
-                    } else{
-                        repeatInt[i] = 1;
-                    }
-                }
 
 //                dbHelper.addContact("오전", 8, 10, 1, 1,0,1, 1, 1, 0, 0, 0);
                 setDbHelper(am_pm, hour, minute, repeatInt, early);
