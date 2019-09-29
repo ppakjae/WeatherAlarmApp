@@ -44,7 +44,7 @@
                 android:textSize="12sp"
                 android:textColor="#000000"
                 android:layout_centerInParent="true"
-                android:padding="29dp"
+                android:padding="28dp"
                 android:layout_alignParentRight="true"/>
 
     </RelativeLayout>
@@ -84,46 +84,53 @@
 
             <ImageView
                 android:id="@+id/imgRepeatMon"
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:src="@drawable/mon_g"
-                android:scaleType="fitCenter"/>
+                android:scaleType="fitCenter"
+                android:layout_columnWeight="1"/>
 
             <ImageView
                 android:id="@+id/imgRepeatTue"
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:src="@drawable/tue_g"/>
+                android:src="@drawable/tue_g"
+                android:layout_columnWeight="1"/>
 
             <ImageView
                 android:id="@+id/imgRepeatWed"
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:src="@drawable/wed_g"/>
+                android:src="@drawable/wed_g"
+                android:layout_columnWeight="1"/>
 
             <ImageView
                 android:id="@+id/imgRepeatThur"
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:src="@drawable/thu_g"/>
+                android:src="@drawable/thu_g"
+                android:layout_columnWeight="1"/>
 
             <ImageView
                 android:id="@+id/imgRepeatFri"
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:src="@drawable/fri_g"/>
+                android:src="@drawable/fri_g"
+                android:layout_columnWeight="1"/>
 
             <ImageView
                 android:id="@+id/imgRepeatSat"
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:src="@drawable/sat_g"/>
+                android:src="@drawable/sat_g"
+                android:layout_columnWeight="1"/>
 
             <ImageView
                 android:id="@+id/imgRepeatSun"
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:src="@drawable/sun_g"/>
+                android:src="@drawable/sun_g"
+                android:layout_columnWeight="1"/>
 
 
         </GridLayout>
