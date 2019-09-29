@@ -3,6 +3,7 @@ package com.example.weatheralarmapp.alarm;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weatheralarmapp.AlarmAddActivity;
 import com.example.weatheralarmapp.R;
+import com.example.weatheralarmapp.db_connect.DBConst;
+import com.example.weatheralarmapp.db_connect.DBHelper;
 
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
@@ -30,10 +33,11 @@ import java.util.Locale;
 
 public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHolder> {
 
-    ArrayList<AlarmItem> alarms = new ArrayList<AlarmItem>();
     public boolean modiStatus = false;
     Context context;
-
+//    DBHelper dbHelper = new DBHelper(context.getApplicationContext(), DBConst.ALARM_TABLE_NAME, null, DBConst.DATABASE_VERSION);
+//    ArrayList<AlarmItem> alarms = dbHelper.readContact();
+    ArrayList<AlarmItem> alarms = new ArrayList<AlarmItem>();
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvNoon;
@@ -82,22 +86,21 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;
         View view = inflater.inflate(R.layout.listview_item_alarm, parent, false) ;
         ReAlarmAdapter.ViewHolder vh = new ReAlarmAdapter.ViewHolder(view) ;
+/*
+        ToggleButton toggleButton = view.findViewById(R.id.toggleButton) ;
+        ToggleButton tbAlarmDeleteCheck = view.findViewById(R.id.cbAlarmDeleteCheck);
+        ImageView ivAlarmEdit = view.findViewById(R.id.ivAlarmEdit);
 
-//        ToggleButton toggleButton = view.findViewById(R.id.toggleButton) ;
-//        ToggleButton tbAlarmDeleteCheck = view.findViewById(R.id.tbAlarmDeleteCheck);
-//        ImageView ivAlarmEdit = view.findViewById(R.id.ivAlarmEdit);
-//
-//        TextView tvNoon = view.findViewById(R.id.tvNoon);
-//        TextView tvHour = view.findViewById(R.id.tvHour);
-//        TextView tvMinute = view.findViewById(R.id.tvMinute);
-//        ImageView ivMon = view.findViewById(R.id.ivMon);
-//        ImageView ivTue = view.findViewById(R.id.ivTue);
-//        ImageView ivWed = view.findViewById(R.id.ivWed);
-//        ImageView ivThu = view.findViewById(R.id.ivThu);
-//        ImageView ivFri = view.findViewById(R.id.ivFri);
-//        ImageView ivSat = view.findViewById(R.id.ivSat);
-//        ImageView ivSun = view.findViewById(R.id.ivSun);
-
+        TextView tvNoon = view.findViewById(R.id.tvNoon);
+        TextView tvHour = view.findViewById(R.id.tvHour);
+        ImageView ivMon = view.findViewById(R.id.ivMon);
+        ImageView ivTue = view.findViewById(R.id.ivTue);
+        ImageView ivWed = view.findViewById(R.id.ivWed);
+        ImageView ivThu = view.findViewById(R.id.ivThu);
+        ImageView ivFri = view.findViewById(R.id.ivFri);
+        ImageView ivSat = view.findViewById(R.id.ivSat);
+        ImageView ivSun = view.findViewById(R.id.ivSun);
+*/
         return vh ;
     }
 
@@ -145,6 +148,8 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
                 @Override
                 public void onClick(View v) {
                     ToggleButton tb = (ToggleButton) v;
+                    boolean b = (alarmItem.getOnoff() != 0);
+                    tb.setChecked(b);
                     AlarmItem contact = (AlarmItem) tb.getTag();
                     contact.setTbSelected(tb.isChecked());
                     alarmItem.setSelected(tb.isChecked());
