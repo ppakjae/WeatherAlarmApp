@@ -112,15 +112,7 @@ public class AlarmFragment extends Fragment {
         tvEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SQLiteDatabase database = dbHelper.getWritableDatabase();
-                Cursor cursor = dbHelper.readAlarmContact(database);
-                //   Log.d("pos", String.valueOf(id));
-                for (int j = 0; j < adapter.getItemCount(); j++) {
-                    cursor.moveToNext();
-                    dbHelper.idUpdate(cursor.getInt(0), j, database);
-                    Log.d("count", String.valueOf(cursor.getInt(0)));
-                }
-                Log.d("cou", String.valueOf(adapter.getItemCount()));
+
                 if(!editStatus){
                     //만약 editStatus가 false 라면 텍스트를 취소로 바꾸고 editStatus를 수정 모드인 true로 바꾼다.
                     tvEdit.setText("삭제");
@@ -146,6 +138,15 @@ public class AlarmFragment extends Fragment {
                             Log.d("cou2", String.valueOf(adapter.getItemCount()));
                             dbHelper.delete(id, dbHelper.getWritableDatabase());
                         }
+                        SQLiteDatabase database = dbHelper.getWritableDatabase();
+                        Cursor cursor = dbHelper.readAlarmContact(database);
+                        //   Log.d("pos", String.valueOf(id));
+                        for (int j = 0; j < adapter.getItemCount(); j++) {
+                            cursor.moveToNext();
+                            dbHelper.idUpdate(cursor.getInt(0), j, database);
+                            Log.d("count", String.valueOf(cursor.getInt(0)));
+                        }
+                        Log.d("cou", String.valueOf(adapter.getItemCount()));
                     }
 
 
