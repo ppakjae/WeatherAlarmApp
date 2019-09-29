@@ -2,6 +2,7 @@ package com.example.weatheralarmapp.alarm;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,11 @@ import com.example.weatheralarmapp.AlarmAddActivity;
 import com.example.weatheralarmapp.R;
 
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHolder> {
 
@@ -104,7 +109,7 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
  //       AlarmItem alarmItem = alarms.get(vh.getAdapterPosition());
         if(!modiStatus) {
             // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-            AlarmItem alarmItem = alarms.get(position);
+            final AlarmItem alarmItem = alarms.get(position);
             pos = position;
 
             // 아이템 내 각 위젯에 데이터 반영
@@ -115,6 +120,8 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
             vh.ivAlarmEdit.setVisibility(View.GONE);
             vh.toggleButton.setVisibility(View.VISIBLE);
             vh.cbAlarmDeleteCheck.setVisibility(View.GONE);
+            vh.toggleButton.setChecked(alarmItem.isTbSelected());
+            vh.toggleButton.setTag(alarmItem);
             if(alarmItem.getbMon() != 0) {
                 vh.ivMon.setImageResource(R.drawable.mon);
             }
@@ -136,6 +143,73 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
             if(alarmItem.getbSun() != 0) {
                 vh.ivSun.setImageResource(R.drawable.sun);
             }
+            vh.toggleButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ToggleButton tb = (ToggleButton) v;
+                    AlarmItem contact = (AlarmItem) tb.getTag();
+                    contact.setTbSelected(tb.isChecked());
+                    alarms.get(pos).setSelected(tb.isChecked());
+
+                    Toast.makeText(
+                            v.getContext(),
+                            "Clicked on toggleButton: " + tb.getText() + " is "
+                                    + tb.isChecked(), Toast.LENGTH_LONG).show();
+                    ((AlarmAddActivity)AlarmAddActivity.context).offAlarm(pos);
+
+
+
+/*
+                    // 현재 지정된 시간으로 알람 시간 설정
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(System.currentTimeMillis());
+//                Log.d("currentTimeMillis",System.currentTimeMillis()+"");
+                    calendar.set(Calendar.HOUR_OF_DAY, alarmItem.getHour());
+                    calendar.set(Calendar.MINUTE, alarmItem.getMinute());
+                    calendar.set(Calendar.SECOND, 0);
+
+//                Log.d("Calendar.HOUR_OF_DAY",Calendar.HOUR_OF_DAY+"");
+//                Log.d("Calendar.MINUTE",Calendar.MINUTE+"");
+//                Log.d("Calendar.SECOND",Calendar.SECOND+"");
+//                Log.d("Calendar.DATE",Calendar.DATE+"");
+
+                    // 이미 지난 시간을 지정했다면 다음날 같은 시간으로 설정
+                    if (calendar.before(Calendar.getInstance())) {
+                        calendar.add(Calendar.DATE, 1);
+                    }
+
+                    Date currentDateTime = calendar.getTime();
+                    Log.d("Calendar.getTime", calendar.getTime()+"");
+                    String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(currentDateTime);
+
+                    //현재는 sharedpreference에 저장하고 있음 디비에 저장해야
+                    //  Preference에 설정한 값 저장
+//                    SharedPreferences.Editor editor = getSharedPreferences("daily alarm", MODE_PRIVATE).edit();
+//                    editor.putLong("nextNotifyTime", (long)calendar.getTimeInMillis());
+//                    editor.apply();
+
+//                    boolean [] repeat = {repeatMon,repeatTue, repeatWed, repeatThur, repeatFri, repeatSat, repeatSun};
+//
+//                    for(int i = 0; i < repeat.length; i++){
+//                        if(repeat[i] == false){
+//                            repeatInt[i] = 0;
+//                        } else{
+//                            repeatInt[i] = 1;
+//                        }
+//                    }
+
+//                dbHelper.addContact("오전", 8, 10, 1, 1,0,1, 1, 1, 0, 0, 0);
+//                    setDbHelper(am_pm, hour, minute, repeatInt, early);
+
+                    add.diaryNotification(calendar);
+
+                    //알람 추가하고 액티비티 사라짐 -> alarm fragment에서 업데이트 할것.
+//                    onBackPressed();
+
+*/
+                }
+            });
+
         }else{
             AlarmItem alarmItem = alarms.get(position);
             pos = position;
