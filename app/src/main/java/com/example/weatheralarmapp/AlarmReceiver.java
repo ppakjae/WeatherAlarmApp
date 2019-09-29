@@ -31,29 +31,37 @@ import static android.content.Context.MODE_PRIVATE;
 public class AlarmReceiver extends BroadcastReceiver {
 
     DBHelper dbHelper;
-    String [] memo_arr;
-    String [] day_arr;
+    String memo_arr;
+    String day_arr;
 
 
     @Override
     public void onReceive(Context context, Intent intent) {
         // throw new UnsupportedOperationException("not yet implemented");
-        memo_arr = new String[7];
-        day_arr = new String[7];
 
         DBHelper dbHelper = new DBHelper(context.getApplicationContext(), DBConst.MEMO_TABLE_NAME, null, DBConst.DATABASE_VERSION);
         Cursor cursor = dbHelper.readMemoContact(dbHelper.getReadableDatabase());
-        for(int i = 0; i < cursor.getCount(); i++){
-            cursor.moveToNext();
-            String day = cursor.getString(1);
-            String memo_contents = cursor.getString(2);
-            day_arr[i] = day;
-            memo_arr[i] = memo_contents;
 
+        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat weekdayFormat = new SimpleDateFormat("EE", Locale.getDefault());
+
+        String weekDay = weekdayFormat.format(currentTime);
+
+        weekDay = dayToForm(weekDay);
+
+        try {
+            for(int i = 0; i < cursor.getCount(); i++){
+                cursor.moveToNext();
+                String day = cursor.getString(1);
+                if (weekDay.equals(day)) {
+                    String memo_contents = cursor.getString(2);
+                    day_arr = day;
+                    memo_arr = memo_contents;
+                    break;
+                }
+            }
         }
-
-        Log.d("day", day_arr[0]);
-        Log.d("memo_contents1", memo_arr[0]);
+        catch (Exception e) { }
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Intent notificationIntent = new Intent(context, AlarmAddActivity.class);
@@ -97,8 +105,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setWhen(System.currentTimeMillis())
 
                 .setTicker("{Time to watch some cool stuff!}")
-                .setContentTitle(day_arr[0] + ", 오늘의 메모 알람")
-                .setContentText(memo_arr[0])
+                .setContentTitle(day_arr + ", 오늘의 메모 알람")
+                .setContentText(memo_arr)
                 .setContentInfo("INFO")
                 .setContentIntent(pendingI);
 
@@ -142,6 +150,40 @@ public class AlarmReceiver extends BroadcastReceiver {
             Log.d("currentDateTime", currentDateTime + "");
             Log.d("date_text", date_text);
         }
+    }
+
+    public String dayToForm(String weekDay) {
+
+        switch (weekDay) {
+            case "Mon":
+                weekDay = "월요일";
+                break;
+
+            case "Tue":
+                weekDay = "화요일";
+                break;
+
+            case "Wed":
+                weekDay = "수요일";
+                break;
+
+            case "Thu":
+                weekDay = "목요일";
+                break;
+
+            case "Fri":
+                weekDay = "금요일";
+                break;
+
+            case "Sat":
+                weekDay = "토요일";
+                break;
+
+            case "Sun":
+                weekDay = "일요일";
+                break;
+        }
+        return weekDay;
     }
 
 //    public void startSound(Context context) {

@@ -28,6 +28,7 @@ import com.example.weatheralarmapp.db_connect.DBConst;
 import com.example.weatheralarmapp.db_connect.DBHelper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class AlarmFragment extends Fragment {
@@ -67,6 +68,11 @@ public class AlarmFragment extends Fragment {
         context = container.getContext();
         editStatus = false;
 
+        Calendar calendar = Calendar.getInstance();
+        int dayofweek = calendar.get(Calendar.DAY_OF_MONTH);
+        //일요일 1 , 수요일 4, 토요일 7
+        Log.d("dayofweek", String.valueOf(dayofweek));
+
         dbHelper = new DBHelper(context.getApplicationContext(), DBConst.ALARM_TABLE_NAME, null, DBConst.DATABASE_VERSION);
 
         view = inflater.inflate(R.layout.fragment_alarm, container, false);
@@ -77,7 +83,7 @@ public class AlarmFragment extends Fragment {
         listAlarm = view.findViewById(R.id.listAlarm);
 
 
- //       dbHelper.onUpgrade(dbHelper.getWritableDatabase(), 1, 1);
+//        dbHelper.onUpgrade(dbHelper.getWritableDatabase(), 1, 1);
         //dbHelper.AllDelete(dbHelper.getReadableDatabase());
         //dbHelper.addContact(0,"AM", 10, 11, 1, 0,0,0, 1, 0, 1, 10, 1, 1);
         //dbHelper.addContact(1,"PM", 02, 12, 0, 1,0,0, 0, 1, 0, 5, 1, 1);
