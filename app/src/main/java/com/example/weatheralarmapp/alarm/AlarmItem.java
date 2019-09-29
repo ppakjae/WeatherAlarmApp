@@ -3,6 +3,7 @@ package com.example.weatheralarmapp.alarm;
 
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ToggleButton;
 
@@ -12,6 +13,8 @@ public class AlarmItem {
     String noon;
     int hour;
     int minute;
+
+//    boolean checkOnOff = false;
 
     int mon = R.drawable.mon_g;
     int tue = R.drawable.tue_g;
@@ -33,18 +36,23 @@ public class AlarmItem {
     int delay;
     int weather;
 
+    int onoff;
+
+    boolean isSelected = false;
+    boolean isTbSelected = true;
 
     ////////view//////////
-    ToggleButton toggleButton;
-    ToggleButton tbAlarmDeleteCheck;
+    public ToggleButton toggleButton;
+    public CheckBox cbAlarmDeleteCheck;
     Drawable ivAlarmEdit;
 
-
+//    public boolean tbDeleteChecked = tbAlarmDeleteCheck.isChecked();
+//    public boolean tbChecked = toggleButton.isChecked();
 
     public AlarmItem() {
     }
 
-    public AlarmItem(String noon, int hour, int minute, int bMon, int bTue, int bWed, int bThu, int bFri, int bSat, int bSun, int delay, int weather){
+    public AlarmItem(String noon, int hour, int minute, int bMon, int bTue, int bWed, int bThu, int bFri, int bSat, int bSun, int delay, int weather, int onoff){
         this.noon = noon;
         this.hour = hour;
         this.minute = minute;
@@ -57,102 +65,7 @@ public class AlarmItem {
         this.bSun = bSun;
         this.weather = weather;
         this.delay = delay;
-    }
-
-    public int getDelay() {
-        return delay;
-    }
-
-    public void setDelay(int delay) {
-        this.delay = delay;
-    }
-
-    public int getWeather() {
-        return weather;
-    }
-
-    public void setWeather(int weather) {
-        this.weather = weather;
-    }
-
-    public int getbMon() {
-        return bMon;
-    }
-
-    public void setbMon(int bMon) {
-        this.bMon = bMon;
-    }
-
-    public int getbTue() {
-        return bTue;
-    }
-
-    public void setbTue(int bTue) {
-        this.bTue = bTue;
-    }
-
-    public int getbWed() {
-        return bWed;
-    }
-
-    public void setbWed(int bWed) {
-        this.bWed = bWed;
-    }
-
-    public int getbThu() {
-        return bThu;
-    }
-
-    public void setbThu(int bThu) {
-        this.bThu = bThu;
-    }
-
-    public int getbFri() {
-        return bFri;
-    }
-
-    public void setbFri(int bFri) {
-        this.bFri = bFri;
-    }
-
-    public int getbSat() {
-        return bSat;
-    }
-
-    public void setbSat(int bSat) {
-        this.bSat = bSat;
-    }
-
-    public int getbSun() {
-        return bSun;
-    }
-
-    public void setbSun(int bSun) {
-        this.bSun = bSun;
-    }
-
-    public Drawable getIvAlarmEdit() {
-        return ivAlarmEdit;
-    }
-
-    public void setIvAlarmEdit(Drawable ivAlarmEdit) {
-        this.ivAlarmEdit = ivAlarmEdit;
-    }
-
-    public ToggleButton getToggleButton() {
-        return toggleButton;
-    }
-
-    public void setToggleButton(ToggleButton toggleButton) {
-        this.toggleButton = toggleButton;
-    }
-
-    public ToggleButton getTbAlarmDeleteCheck() {
-        return tbAlarmDeleteCheck;
-    }
-
-    public void setTbAlarmDeleteCheck(ToggleButton tbAlarmDeleteCheck) {
-        this.tbAlarmDeleteCheck = tbAlarmDeleteCheck;
+        this.onoff = onoff;
     }
 
     public String getNoon() {
@@ -235,6 +148,126 @@ public class AlarmItem {
         this.sun = sun;
     }
 
+    public int getbMon() {
+        return bMon;
+    }
+
+    public void setbMon(int bMon) {
+        this.bMon = bMon;
+    }
+
+    public int getbTue() {
+        return bTue;
+    }
+
+    public void setbTue(int bTue) {
+        this.bTue = bTue;
+    }
+
+    public int getbWed() {
+        return bWed;
+    }
+
+    public void setbWed(int bWed) {
+        this.bWed = bWed;
+    }
+
+    public int getbThu() {
+        return bThu;
+    }
+
+    public void setbThu(int bThu) {
+        this.bThu = bThu;
+    }
+
+    public int getbFri() {
+        return bFri;
+    }
+
+    public void setbFri(int bFri) {
+        this.bFri = bFri;
+    }
+
+    public int getbSat() {
+        return bSat;
+    }
+
+    public void setbSat(int bSat) {
+        this.bSat = bSat;
+    }
+
+    public int getbSun() {
+        return bSun;
+    }
+
+    public void setbSun(int bSun) {
+        this.bSun = bSun;
+    }
+
+    public int getDelay() {
+        return delay;
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+
+    public int getWeather() {
+        return weather;
+    }
+
+    public void setOnoff(int onoff){
+        this.onoff = onoff;
+    }
+
+    public int getOnoff(){
+        return onoff;
+    }
+
+    public boolean isTbSelected() {
+        return isTbSelected;
+    }
+
+    public void setTbSelected(boolean tbSelected) {
+        isTbSelected = tbSelected;
+    }
+
+    public void setWeather(int weather) {
+        this.weather = weather;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    public ToggleButton getToggleButton() {
+        return toggleButton;
+    }
+
+    public void setToggleButton(ToggleButton toggleButton) {
+        this.toggleButton = toggleButton;
+    }
+
+    public CheckBox getCbAlarmDeleteCheck() {
+        return cbAlarmDeleteCheck;
+    }
+
+    public void setCbAlarmDeleteCheck(CheckBox cbAlarmDeleteCheck) {
+        this.cbAlarmDeleteCheck = cbAlarmDeleteCheck;
+    }
+
+    public Drawable getIvAlarmEdit() {
+        return ivAlarmEdit;
+    }
+
+    public void setIvAlarmEdit(Drawable ivAlarmEdit) {
+        this.ivAlarmEdit = ivAlarmEdit;
+    }
+
     @Override
     public String toString() {
         return "AlarmItem{" +
@@ -248,9 +281,29 @@ public class AlarmItem {
                 ", fri=" + fri +
                 ", sat=" + sat +
                 ", sun=" + sun +
+                ", bMon=" + bMon +
+                ", bTue=" + bTue +
+                ", bWed=" + bWed +
+                ", bThu=" + bThu +
+                ", bFri=" + bFri +
+                ", bSat=" + bSat +
+                ", bSun=" + bSun +
+                ", delay=" + delay +
+                ", weather=" + weather +
+                ", isSelected=" + isSelected +
                 ", toggleButton=" + toggleButton +
-                ", tbAlarmDeleteCheck=" + tbAlarmDeleteCheck +
+                ", cbAlarmDeleteCheck=" + cbAlarmDeleteCheck +
                 ", ivAlarmEdit=" + ivAlarmEdit +
                 '}';
     }
+
+    //    public boolean isCheckOnOff() {
+//        return checkOnOff;
+//    }
+//
+//    public void setCheckOnOff(boolean checkOnOff) {
+//        this.checkOnOff = checkOnOff;
+//    }
+
 }
+
