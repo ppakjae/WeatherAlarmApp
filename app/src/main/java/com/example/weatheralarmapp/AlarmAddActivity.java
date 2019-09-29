@@ -66,6 +66,7 @@ public class AlarmAddActivity extends AppCompatActivity implements WeatherAlarmO
 
     int [] repeatInt = new int[7];
     int [] early = new int [4];
+    int count;
 
     ArrayList<String> sound_items;
     ArrayAdapter<String> soundArray_adapter;
@@ -199,6 +200,7 @@ public class AlarmAddActivity extends AppCompatActivity implements WeatherAlarmO
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(System.currentTimeMillis());
 //                Log.d("currentTimeMillis",System.currentTimeMillis()+"");
+                count=0;
                 for (int i =0 ; i<repeatInt.length ; i++) {
                     if (repeatInt[i] == 1) {
                         if (i == 6) {
@@ -207,6 +209,15 @@ public class AlarmAddActivity extends AppCompatActivity implements WeatherAlarmO
                         else {
                             calendar.set(Calendar.DAY_OF_WEEK, i+2);
                         }
+                        calendar.set(Calendar.HOUR_OF_DAY, hour_24);
+                        calendar.set(Calendar.MINUTE, minute);
+                        calendar.set(Calendar.SECOND, 0);
+                    }
+
+                    else
+                        count++;
+
+                    if (count == 7) {
                         calendar.set(Calendar.HOUR_OF_DAY, hour_24);
                         calendar.set(Calendar.MINUTE, minute);
                         calendar.set(Calendar.SECOND, 0);
@@ -308,7 +319,7 @@ public class AlarmAddActivity extends AppCompatActivity implements WeatherAlarmO
             if (alarmManager != null) {
 
                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                        AlarmManager.INTERVAL_DAY, pendingIntent);
+                        AlarmManager.INTERVAL_DAY*7, pendingIntent);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
