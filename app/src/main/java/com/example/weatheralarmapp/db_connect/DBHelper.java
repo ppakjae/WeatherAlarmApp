@@ -66,8 +66,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public void addContact( int id, String noon, int hour, int minute,
                            int mon, int tue, int wed, int thu, int fri, int sat, int sun, int delay, int weather, int onoff) {
         SQLiteDatabase db = getWritableDatabase();
-        String sql = String.format("insert into alarm values('%d', '%s','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d', '%d');",
-                                      id, noon, hour, minute, mon, tue, wed, thu, fri, sat, sun, delay, weather, onoff);
+        String sql = String.format("insert into alarm values('%d', '%s','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d', null);",
+                                      id, noon, hour, minute, mon, tue, wed, thu, fri, sat, sun, delay, weather);
         db.execSQL(sql);
 
         db.close();
@@ -95,7 +95,7 @@ public class DBHelper extends SQLiteOpenHelper {
             alarmItem.setbSun(cursor.getInt(10));
             alarmItem.setDelay(cursor.getInt(11));
             alarmItem.setWeather(cursor.getInt(12));
-            alarmItem.setonoff(cursor.getInt(13));
+            alarmItem.setOnoff(cursor.getInt(13));
 
             items.add(alarmItem);
 

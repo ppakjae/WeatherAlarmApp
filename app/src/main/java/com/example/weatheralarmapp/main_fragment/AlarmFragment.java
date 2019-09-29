@@ -77,12 +77,12 @@ public class AlarmFragment extends Fragment {
         listAlarm = view.findViewById(R.id.listAlarm);
 
 
-
-        dbHelper.AllDelete(dbHelper.getReadableDatabase());
-        dbHelper.addContact(0,"AM", 10, 11, 1, 0,0,0, 1, 0, 1, 10, 1, 1);
-        dbHelper.addContact(1,"PM", 02, 12, 0, 1,0,0, 0, 1, 0, 5, 1, 1);
-        dbHelper.addContact(2,"PM", 03, 13, 1, 1,1,0, 0, 1, 1, 15, 1, 1);
-        dbHelper.addContact(3,"AM", 07, 14, 0, 1,0,1, 1, 0, 0, 0, 0, 1);
+ //       dbHelper.onUpgrade(dbHelper.getWritableDatabase(), 1, 1);
+        //dbHelper.AllDelete(dbHelper.getReadableDatabase());
+        //dbHelper.addContact(0,"AM", 10, 11, 1, 0,0,0, 1, 0, 1, 10, 1, 1);
+        //dbHelper.addContact(1,"PM", 02, 12, 0, 1,0,0, 0, 1, 0, 5, 1, 1);
+        //dbHelper.addContact(2,"PM", 03, 13, 1, 1,1,0, 0, 1, 1, 15, 1, 1);
+        //dbHelper.addContact(3,"AM", 07, 14, 0, 1,0,1, 1, 0, 0, 0, 0, 1);
 
 //        adapter.addItem(new AlarmItem("오전", 8, 10, 1, 1,0,1, 1, 1, 0));
 //        adapter.addItem(new AlarmItem("오전", 8, 10, 1, 1,0,1, 1, 1, 0));
@@ -112,7 +112,15 @@ public class AlarmFragment extends Fragment {
         tvEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                SQLiteDatabase database = dbHelper.getWritableDatabase();
+                Cursor cursor = dbHelper.readAlarmContact(database);
+                //   Log.d("pos", String.valueOf(id));
+                for (int j = 0; j < adapter.getItemCount(); j++) {
+                    cursor.moveToNext();
+                    dbHelper.idUpdate(cursor.getInt(0), j, database);
+                    Log.d("count", String.valueOf(cursor.getInt(0)));
+                }
+                Log.d("cou", String.valueOf(adapter.getItemCount()));
                 if(!editStatus){
                     //만약 editStatus가 false 라면 텍스트를 취소로 바꾸고 editStatus를 수정 모드인 true로 바꾼다.
                     tvEdit.setText("삭제");
@@ -140,15 +148,7 @@ public class AlarmFragment extends Fragment {
                         }
                     }
 
-                    SQLiteDatabase database = dbHelper.getWritableDatabase();
-                    Cursor cursor = dbHelper.readAlarmContact(database);
-                 //   Log.d("pos", String.valueOf(id));
-                    for (int j = 0; j < adapter.getItemCount(); j++) {
-                        cursor.moveToNext();
-                        dbHelper.idUpdate(cursor.getInt(0), j, database);
-                        Log.d("count", String.valueOf(cursor.getInt(0)));
-                    }
-                    Log.d("cou", String.valueOf(adapter.getItemCount()));
+
 
 
 

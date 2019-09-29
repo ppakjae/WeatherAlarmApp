@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -274,17 +275,20 @@ public class AlarmAddActivity extends AppCompatActivity implements WeatherAlarmO
 
     }
 
-    void diaryNotification(Calendar calendar)
+    public void diaryNotification(Calendar calendar)
     {
 //        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 //        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 //        Boolean dailyNotify = sharedPref.getBoolean(SettingsActivity.KEY_PREF_DAILY_NOTIFICATION, true);
+
+        int count = dbHelper.readAlarmContact(dbHelper.getReadableDatabase()).getCount();
+
         Boolean dailyNotify = true; // 무조건 알람을 사용
 
         PackageManager pm = this.getPackageManager();
         ComponentName receiver = new ComponentName(this, DeviceBootReceiver.class);
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, count, alarmIntent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
 
@@ -427,19 +431,20 @@ public class AlarmAddActivity extends AppCompatActivity implements WeatherAlarmO
         }
 
         Log.d("addContact", noon + " " + hour + " " + minute + " " + Arrays.toString(repeat) + " " + delay + " " + weather_alarm);
-
+        int count = dbHelper.readAlarmContact(dbHelper.getReadableDatabase()).getCount();
+        Log.d("add", String.valueOf(count));
         //id 들어가야된다. 업데이트도 해야된다.
-//        dbHelper.addContact(noon, hour, minute, repeat[0], repeat[1], repeat[2], repeat[3], repeat[4], repeat[5], repeat[6], delay, weather_alarm);
+        dbHelper.addContact(count, noon, hour, minute, repeat[0], repeat[1], repeat[2], repeat[3], repeat[4], repeat[5], repeat[6], delay, weather_alarm, 1);
 
     }
 
     //알람 끄기
-//    public void offAlarm(){
-//        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-//        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
-//        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//        alarmManager.cancel(pendingIntent);
-//        Log.d("cancel", "cancel");
-//    }
+    public void offAlarm(int i){
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i, alarmIntent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
+        Log.d("cancel", "cancel");
+    }
 
 }
