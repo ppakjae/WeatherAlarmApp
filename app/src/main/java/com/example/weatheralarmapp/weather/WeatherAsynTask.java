@@ -15,11 +15,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -294,7 +292,7 @@ public class WeatherAsynTask extends AsyncTask<String, String, String> {
 
             weatherDailyHourlyItemArrayList = new ArrayList<>();
             for(int i=4;i<=19;i+=3){
-                weatherDailyHourlyItemArrayList.add(new WeatherDayilyHourlyItem(String.valueOf(i),
+                weatherDailyHourlyItemArrayList.add(new WeatherDayilyHourlyItem(String.valueOf(i)+" hours later",
                                                                                     dailyHourly_temperature_hashMap.get(i),
                                                                                     dailyHourly_sky_statement_hashMap.get(i)));
             }
@@ -307,7 +305,7 @@ public class WeatherAsynTask extends AsyncTask<String, String, String> {
 
             DailyAdapter dailyAdapter = new DailyAdapter(weatherFragment.mainActivity, weatherDailyHourlyItemArrayList);
             RecyclerView dailyRecyclerView = ((RecyclerView)weatherFragment.getView().findViewById(R.id.horizontalViewDaily));
-//            dailyRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+//            dailyRecyclerView.setLayoutManager(new LinearLayoutManager(weatherFragment.getContext(), RecyclerView.HORIZONTAL, false));
             dailyRecyclerView.setAdapter(dailyAdapter);
             dailyRecyclerView.invalidate();
 
