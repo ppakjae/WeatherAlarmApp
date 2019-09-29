@@ -298,7 +298,7 @@ public class AlarmAddActivity extends AppCompatActivity implements WeatherAlarmO
         PackageManager pm = this.getPackageManager();
         ComponentName receiver = new ComponentName(this, DeviceBootReceiver.class);
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, count, alarmIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, count-1, alarmIntent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
 
@@ -454,7 +454,7 @@ public class AlarmAddActivity extends AppCompatActivity implements WeatherAlarmO
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i, alarmIntent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
-        Log.d("cancel", "cancel");
+        Log.d("cancel", "cancel" + String.valueOf(i));
     }
 
 }
