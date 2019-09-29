@@ -244,12 +244,10 @@ public class WeatherAsynTask extends AsyncTask<String, String, String> {
             }
             WeeklyAdapter weeklyAdapter = new WeeklyAdapter(weatherFragment.mainActivity, weatherWeeklyItemArrayList);
             RecyclerView weeklyRecyclerView = ((RecyclerView)weatherFragment.getView().findViewById(R.id.horizontalViewWeekly));
-            weeklyRecyclerView.setHorizontalScrollBarEnabled(true);
+
             weeklyRecyclerView.setAdapter(weeklyAdapter);
             weeklyRecyclerView.invalidate();
-            weeklyRecyclerView.setHorizontalScrollBarEnabled(true);
             weeklyRecyclerView.getAdapter().notifyDataSetChanged();
-            weeklyRecyclerView.setHorizontalScrollBarEnabled(true);
 
             System.out.println("Weekly RecyclerView  Complete");
 
