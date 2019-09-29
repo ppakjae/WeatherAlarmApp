@@ -36,6 +36,7 @@ public class MemoFragment extends Fragment {
     TextView tvDay_5;
     TextView tvDay_6;
     TextView tvDay_7;
+    TextView memoTitle;
 
     EditText edtDay_1;
     EditText edtDay_2;
@@ -62,6 +63,7 @@ public class MemoFragment extends Fragment {
         tvDay_5 = (TextView) view.findViewById(R.id.tvDay_5);
         tvDay_6 = (TextView) view.findViewById(R.id.tvDay_6);
         tvDay_7 = (TextView) view.findViewById(R.id.tvDay_7);
+        memoTitle = (TextView) view.findViewById(R.id.memoTitle);
 
         edtDay_1 = (EditText) view.findViewById(R.id.edtDay_1);
         edtDay_2 = (EditText) view.findViewById(R.id.edtDay_2);
@@ -75,9 +77,11 @@ public class MemoFragment extends Fragment {
 
         Date currentTime = Calendar.getInstance().getTime();
         SimpleDateFormat weekdayFormat = new SimpleDateFormat("EE", Locale.getDefault());
+        SimpleDateFormat monthDayFormat = new SimpleDateFormat("MM.dd", Locale.getDefault());
 
         String weekDay = weekdayFormat.format(currentTime);
-        DayForm(weekDay);
+        String monthDay = monthDayFormat.format(currentTime);
+        DayForm(weekDay, monthDay);
 
         autoDelete();
         ReadMemo();
@@ -218,7 +222,7 @@ public class MemoFragment extends Fragment {
         }
     }
 
-    public void DayForm(String weekDay) {
+    public void DayForm(String weekDay, String monthDay) {
         switch (weekDay) {
             case "Mon":
                 tvDay_1.setText("월요일");
@@ -228,6 +232,7 @@ public class MemoFragment extends Fragment {
                 tvDay_5.setText("금요일");
                 tvDay_6.setText("토요일");
                 tvDay_7.setText("일요일");
+                memoTitle.setText(monthDay+".월요일");
                 break;
 
             case "Tue":
@@ -238,6 +243,7 @@ public class MemoFragment extends Fragment {
                 tvDay_5.setText("토요일");
                 tvDay_6.setText("일요일");
                 tvDay_7.setText("월요일");
+                memoTitle.setText(monthDay+".화요일");
                 break;
 
             case "Wed":
@@ -248,6 +254,7 @@ public class MemoFragment extends Fragment {
                 tvDay_5.setText("일요일");
                 tvDay_6.setText("월요일");
                 tvDay_7.setText("화요일");
+                memoTitle.setText(monthDay+".수요일");
                 break;
 
             case "Thu":
@@ -258,6 +265,7 @@ public class MemoFragment extends Fragment {
                 tvDay_5.setText("월요일");
                 tvDay_6.setText("화요일");
                 tvDay_7.setText("수요일");
+                memoTitle.setText(monthDay+".목요일");
                 break;
 
             case "Fri":
@@ -268,6 +276,7 @@ public class MemoFragment extends Fragment {
                 tvDay_5.setText("화요일");
                 tvDay_6.setText("수요일");
                 tvDay_7.setText("목요일");
+                memoTitle.setText(monthDay+".금요일");
                 break;
 
             case "Sat":
@@ -278,6 +287,7 @@ public class MemoFragment extends Fragment {
                 tvDay_5.setText("수요일");
                 tvDay_6.setText("목요일");
                 tvDay_7.setText("금요일");
+                memoTitle.setText(monthDay+".토요일");
                 break;
 
             case "Sun":
@@ -288,6 +298,7 @@ public class MemoFragment extends Fragment {
                 tvDay_5.setText("목요일");
                 tvDay_6.setText("금요일");
                 tvDay_7.setText("토요일");
+                memoTitle.setText(monthDay+".일요일");
                 break;
         }
     }
