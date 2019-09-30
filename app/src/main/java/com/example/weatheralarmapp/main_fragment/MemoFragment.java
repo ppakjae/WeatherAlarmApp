@@ -81,7 +81,6 @@ public class MemoFragment extends Fragment {
 
         String weekDay = weekdayFormat.format(currentTime);
         String monthDay = monthDayFormat.format(currentTime);
-        Log.d("weekDay", weekDay);
         DayForm(weekDay, monthDay);
 
         autoDelete();
