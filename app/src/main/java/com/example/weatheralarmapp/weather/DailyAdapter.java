@@ -60,9 +60,51 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
         WeatherDayilyHourlyItem data = dailyItems.get(position);
 
         holder.txtDailyItemTime.setText(data.getTime());
-//        holder.txtDailyItemRain.setText(data.get);
+        holder.txtDailyItemRain.setText("");                //API 강수확률이 없음.
         holder.txtDailyItemTemper.setText(data.getTemperature());
 //        holder.imgDailyItemIcon.setImageResource(); 넣어주기 전에 위에서 어떤 하늘인지 골라내고 넣기.
+        String skyState = data.getSky();
+        switch (skyState)
+        {
+            case "맑음":
+                holder.imgDailyItemIcon.setImageResource(R.drawable.icon01);
+                break;
+            case "구름조금":
+            case "구름많음":
+                holder.imgDailyItemIcon.setImageResource(R.drawable.icon02);
+                break;
+            case "구름많고 비":
+                holder.imgDailyItemIcon.setImageResource(R.drawable.icon13);
+                break;
+            case "구름많고 눈":
+                holder.imgDailyItemIcon.setImageResource(R.drawable.icon14);
+                break;
+            case "구름많고 비 또는 눈":
+                holder.imgDailyItemIcon.setImageResource(R.drawable.icon15);
+                break;
+            case "흐림":
+                holder.imgDailyItemIcon.setImageResource(R.drawable.icon03);
+                break;
+            case "흐리고 눈":
+                holder.imgDailyItemIcon.setImageResource(R.drawable.icon08);
+                break;
+            case "흐리고 비 또는 눈":
+                holder.imgDailyItemIcon.setImageResource(R.drawable.icon06);
+                break;
+            case "흐리고 낙뢰":
+                holder.imgDailyItemIcon.setImageResource(R.drawable.icon10);
+                break;
+            case "뇌우/비":
+                holder.imgDailyItemIcon.setImageResource(R.drawable.icon10);
+                break;
+            case "뇌우/눈":
+                holder.imgDailyItemIcon.setImageResource(R.drawable.icon22);
+                break;
+            case "뇌우/비 또는 눈":
+                holder.imgDailyItemIcon.setImageResource(R.drawable.icon22);
+                break;
+            default:
+        }
     }
 
     @Override

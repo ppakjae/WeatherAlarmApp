@@ -36,6 +36,7 @@ public class MemoFragment extends Fragment {
     TextView tvDay_5;
     TextView tvDay_6;
     TextView tvDay_7;
+    TextView memoTitle;
 
     EditText edtDay_1;
     EditText edtDay_2;
@@ -62,6 +63,7 @@ public class MemoFragment extends Fragment {
         tvDay_5 = (TextView) view.findViewById(R.id.tvDay_5);
         tvDay_6 = (TextView) view.findViewById(R.id.tvDay_6);
         tvDay_7 = (TextView) view.findViewById(R.id.tvDay_7);
+        memoTitle = (TextView) view.findViewById(R.id.memoTitle);
 
         edtDay_1 = (EditText) view.findViewById(R.id.edtDay_1);
         edtDay_2 = (EditText) view.findViewById(R.id.edtDay_2);
@@ -75,9 +77,11 @@ public class MemoFragment extends Fragment {
 
         Date currentTime = Calendar.getInstance().getTime();
         SimpleDateFormat weekdayFormat = new SimpleDateFormat("EE", Locale.getDefault());
+        SimpleDateFormat monthDayFormat = new SimpleDateFormat("MM.dd", Locale.getDefault());
 
         String weekDay = weekdayFormat.format(currentTime);
-        DayForm(weekDay);
+        String monthDay = monthDayFormat.format(currentTime);
+        DayForm(weekDay, monthDay);
 
         autoDelete();
         ReadMemo();
@@ -218,77 +222,82 @@ public class MemoFragment extends Fragment {
         }
     }
 
-    public void DayForm(String weekDay) {
-        switch (weekDay) {
-            case "Mon":
-                tvDay_1.setText("월요일");
-                tvDay_2.setText("화요일");
-                tvDay_3.setText("수요일");
-                tvDay_4.setText("목요일");
-                tvDay_5.setText("금요일");
-                tvDay_6.setText("토요일");
-                tvDay_7.setText("일요일");
-                break;
+    public void DayForm(String weekDay, String monthDay) {
+        if (weekDay.equals("Mon") || weekDay.equals("월")) {
+            tvDay_1.setText("월요일");
+            tvDay_2.setText("화요일");
+            tvDay_3.setText("수요일");
+            tvDay_4.setText("목요일");
+            tvDay_5.setText("금요일");
+            tvDay_6.setText("토요일");
+            tvDay_7.setText("일요일");
+            memoTitle.setText(monthDay + ".월요일");
+        }
 
-            case "Tue":
-                tvDay_1.setText("화요일");
-                tvDay_2.setText("수요일");
-                tvDay_3.setText("목요일");
-                tvDay_4.setText("금요일");
-                tvDay_5.setText("토요일");
-                tvDay_6.setText("일요일");
-                tvDay_7.setText("월요일");
-                break;
+        else if (weekDay.equals("Tue") || weekDay.equals("화")) {
+            tvDay_1.setText("화요일");
+            tvDay_2.setText("수요일");
+            tvDay_3.setText("목요일");
+            tvDay_4.setText("금요일");
+            tvDay_5.setText("토요일");
+            tvDay_6.setText("일요일");
+            tvDay_7.setText("월요일");
+            memoTitle.setText(monthDay + ".화요일");
+        }
 
-            case "Wed":
-                tvDay_1.setText("수요일");
-                tvDay_2.setText("목요일");
-                tvDay_3.setText("금요일");
-                tvDay_4.setText("토요일");
-                tvDay_5.setText("일요일");
-                tvDay_6.setText("월요일");
-                tvDay_7.setText("화요일");
-                break;
+        else if (weekDay.equals("Wed") || weekDay.equals("수")) {
+            tvDay_1.setText("수요일");
+            tvDay_2.setText("목요일");
+            tvDay_3.setText("금요일");
+            tvDay_4.setText("토요일");
+            tvDay_5.setText("일요일");
+            tvDay_6.setText("월요일");
+            tvDay_7.setText("화요일");
+            memoTitle.setText(monthDay + ".수요일");
+        }
 
-            case "Thu":
-                tvDay_1.setText("목요일");
-                tvDay_2.setText("금요일");
-                tvDay_3.setText("토요일");
-                tvDay_4.setText("일요일");
-                tvDay_5.setText("월요일");
-                tvDay_6.setText("화요일");
-                tvDay_7.setText("수요일");
-                break;
+        else if (weekDay.equals("Thu") || weekDay.equals("목")) {
+            tvDay_1.setText("목요일");
+            tvDay_2.setText("금요일");
+            tvDay_3.setText("토요일");
+            tvDay_4.setText("일요일");
+            tvDay_5.setText("월요일");
+            tvDay_6.setText("화요일");
+            tvDay_7.setText("수요일");
+            memoTitle.setText(monthDay + ".목요일");
+        }
 
-            case "Fri":
-                tvDay_1.setText("금요일");
-                tvDay_2.setText("토요일");
-                tvDay_3.setText("일요일");
-                tvDay_4.setText("월요일");
-                tvDay_5.setText("화요일");
-                tvDay_6.setText("수요일");
-                tvDay_7.setText("목요일");
-                break;
+        else if (weekDay.equals("Fri") || weekDay.equals("금")) {
+            tvDay_1.setText("금요일");
+            tvDay_2.setText("토요일");
+            tvDay_3.setText("일요일");
+            tvDay_4.setText("월요일");
+            tvDay_5.setText("화요일");
+            tvDay_6.setText("수요일");
+            tvDay_7.setText("목요일");
+            memoTitle.setText(monthDay + ".금요일");
+        }
 
-            case "Sat":
-                tvDay_1.setText("토요일");
-                tvDay_2.setText("일요일");
-                tvDay_3.setText("월요일");
-                tvDay_4.setText("화요일");
-                tvDay_5.setText("수요일");
-                tvDay_6.setText("목요일");
-                tvDay_7.setText("금요일");
-                break;
+        else if (weekDay.equals("Sat") || weekDay.equals("토")) {
+            tvDay_1.setText("토요일");
+            tvDay_2.setText("일요일");
+            tvDay_3.setText("월요일");
+            tvDay_4.setText("화요일");
+            tvDay_5.setText("수요일");
+            tvDay_6.setText("목요일");
+            tvDay_7.setText("금요일");
+            memoTitle.setText(monthDay + ".토요일");
+        }
 
-            case "Sun":
-                tvDay_1.setText("일요일");
-                tvDay_2.setText("월요일");
-                tvDay_3.setText("화요일");
-                tvDay_4.setText("수요일");
-                tvDay_5.setText("목요일");
-                tvDay_6.setText("금요일");
-                tvDay_7.setText("토요일");
-                break;
+        else if (weekDay.equals("Sun") || weekDay.equals("일")) {
+            tvDay_1.setText("일요일");
+            tvDay_2.setText("월요일");
+            tvDay_3.setText("화요일");
+            tvDay_4.setText("수요일");
+            tvDay_5.setText("목요일");
+            tvDay_6.setText("금요일");
+            tvDay_7.setText("토요일");
+            memoTitle.setText(monthDay + ".일요일");
         }
     }
 

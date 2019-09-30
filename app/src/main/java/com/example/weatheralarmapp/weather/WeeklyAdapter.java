@@ -62,7 +62,48 @@ public class WeeklyAdapter extends RecyclerView.Adapter<WeeklyAdapter.ViewHolder
         WeatherWeeklyItem data = weeklyItems.get(position);
 
         holder.txtWeeklyItemDay.setText(data.getDay());
-//        holder.imgWeeklyItemIcon.setImageResource(data.getWeather());
+        String skyState = data.getSkyName();
+        switch (skyState)
+        {
+            case "맑음":
+                holder.imgWeeklyItemIcon.setImageResource(R.drawable.icon01);
+                break;
+            case "구름조금":
+            case "구름많음":
+                holder.imgWeeklyItemIcon.setImageResource(R.drawable.icon02);
+                break;
+            case "구름많고 비":
+                holder.imgWeeklyItemIcon.setImageResource(R.drawable.icon13);
+                break;
+            case "구름많고 눈":
+                holder.imgWeeklyItemIcon.setImageResource(R.drawable.icon14);
+                break;
+            case "구름많고 비 또는 눈":
+                holder.imgWeeklyItemIcon.setImageResource(R.drawable.icon15);
+                break;
+            case "흐림":
+                holder.imgWeeklyItemIcon.setImageResource(R.drawable.icon03);
+                break;
+            case "흐리고 눈":
+                holder.imgWeeklyItemIcon.setImageResource(R.drawable.icon08);
+                break;
+            case "흐리고 비 또는 눈":
+                holder.imgWeeklyItemIcon.setImageResource(R.drawable.icon06);
+                break;
+            case "흐리고 낙뢰":
+                holder.imgWeeklyItemIcon.setImageResource(R.drawable.icon10);
+                break;
+            case "뇌우/비":
+                holder.imgWeeklyItemIcon.setImageResource(R.drawable.icon10);
+                break;
+            case "뇌우/눈":
+                holder.imgWeeklyItemIcon.setImageResource(R.drawable.icon22);
+                break;
+            case "뇌우/비 또는 눈":
+                holder.imgWeeklyItemIcon.setImageResource(R.drawable.icon22);
+                break;
+            default:
+        }
         holder.txtWeeklyHighTemper.setText(data.getTmax());
         holder.txtWeeklyLowTemper.setText(data.getTmin());
 

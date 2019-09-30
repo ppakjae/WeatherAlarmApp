@@ -133,7 +133,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:scrollbars="horizontal"/>
+            android:scrollbars="horizontal"
+            android:fadeScrollbars="true"
+            android:scrollbarSize="0dp"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -144,7 +146,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:scrollbars="horizontal"/>
+            android:scrollbars="horizontal"
+            android:fadeScrollbars="true"
+            android:scrollbarSize="0dp"/>
 
         <View
             android:layout_width="match_parent"
