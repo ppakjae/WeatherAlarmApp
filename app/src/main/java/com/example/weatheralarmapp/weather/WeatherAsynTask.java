@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weatheralarmapp.R;
@@ -155,6 +154,10 @@ public class WeatherAsynTask extends AsyncTask<String, String, String> {
             String timeRelease = hourly_1.getString("timeRelease");
             String timeReleaseSplit[] = timeRelease.split(" ");
             String day[] = timeReleaseSplit[0].split("-");
+            //시간 업뎃
+            String time[] = timeReleaseSplit[1].split(":");
+            String timeUpdate = time[0]+":"+time[1];
+            //날짜 업뎃
             String dayDate = day[1]+"."+day[2];
 
 
@@ -165,6 +168,7 @@ public class WeatherAsynTask extends AsyncTask<String, String, String> {
             ((TextView)weatherFragment.getView().findViewById(R.id.txtWeather)).setText(skyName);
             ((TextView)weatherFragment.getView().findViewById(R.id.txtArea)).setText(area2);
             ((TextView)weatherFragment.getView().findViewById(R.id.txtDate)).setText(dayDate);
+            ((TextView)weatherFragment.getView().findViewById(R.id.txtDustUpdateTime)).setText(timeUpdate);
             //Day 요일 설정
             SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.getDefault());
             Calendar calendar = Calendar.getInstance();
