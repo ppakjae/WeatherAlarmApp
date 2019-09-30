@@ -165,6 +165,7 @@ public class ReAlarmAdapter extends RecyclerView.Adapter<ReAlarmAdapter.ViewHold
                         Log.d("before", String.valueOf(position));
                         ((AlarmAddActivity)AlarmAddActivity.context).offAlarm(position);
                         Log.d("after", String.valueOf(position));
+                        alarmItem.setOnoff(1);
                     }else {
                         // 현재 지정된 시간으로 알람 시간 설정
                         Calendar calendar = Calendar.getInstance();
